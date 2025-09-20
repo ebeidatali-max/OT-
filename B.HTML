@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<title>تقييم علاج وظيفي</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<style>
+body { font-family: "Cairo","Tahoma",sans-serif; direction: rtl; background: #f3f4f6; margin: 0; padding: 20px; }
+header { display: flex; align-items: center; background: linear-gradient(90deg,#4f46e5,#3b82f6); color: white; padding: 15px; border-radius: 12px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+header img { height: 60px; margin-left: 15px; border-radius: 8px; background: white; padding: 3px; }
+header h1 { margin: 0; font-size: 28px; font-weight: bold; }
+.info { margin-top: 20px; background: #fff; padding: 20px; border-radius: 12px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+label { font-weight: bold; display: block; margin-bottom: 3px; font-size: 16px; }
+input, textarea { width: 100%; padding: 6px; margin-bottom: 8px; border: 1px solid #ccc; border-radius: 6px; font-size: 16px; box-sizing: border-box; }
+textarea { width: 95%; resize: none; font-size: 15px; min-height:50px; }
+.divider { height: 3px; background: #4f46e5; margin: 25px 0; border-radius: 5px; }
+table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+th, td { border: 1px solid #ddd; padding: 8px; text-align: center; font-size: 16px; }
+th { background: #4f46e5; color: white; }
+.buttons { margin-top: 20px; text-align: center; }
+.btn { padding: 12px 20px; margin: 8px; border: none; border-radius: 10px; cursor: pointer; color: white; font-weight: bold; font-size: 16px; transition: 0.3s; }
+.btn-save { background: #3b82f6; }
+.btn-print { background: #f59e0b; }
+.btn-pdf { background: #10b981; }
+.btn:hover { opacity: 0.9; }
+</style>
+</head>
+<body>
+
+<header>
+  <img id="logo" src="logo.png" alt="شعار المؤسسة">
+  <h1> تقييم علاج وظيفي</h1>
+</header>
+
+<div class="info">
+  <label>📤 رفع شعار المؤسسة:</label>
+  <input type="file" id="logoInput" accept="image/*">
+</div>
+
+<!-- القسم الأول: معلومات الطالب -->
+<div class="info">
+  <label>المعلومات الخاصة بالطالب:</label>
+  <div style="display:flex; flex-direction:column; gap:5px; text-align:right;">
+    <div><label>اسم الطالب:</label><input type="text" id="name"></div>
+    <div><label>تاريخ الميلاد:</label><input type="date" id="dob"></div>
+    <div><label>رقم الهوية:</label><input type="text" id="idNumber"></div>
+    <div><label>تاريخ التقييم:</label><input type="date" id="evalDate"></div>
+    <div style="display:flex; gap:15px; align-items:center; justify-content:flex-end;">
+      <label>نوع التقييم:</label>
+      <input type="radio" name="evalType" value="أولي"> أولي
+      <input type="radio" name="evalType" value="إعادة تقييم"> إعادة تقييم
+    </div>
+    <div><label>اسم المعالج:</label><input type="text" id="therapist"></div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- الخلفية الطبية -->
+<div class="info">
+  <label>الخلفية الطبية للطالب:</label>
+  <textarea id="medicalHistory" placeholder="اكتب التفاصيل هنا..."></textarea>
+</div>
+
+<div class="divider"></div>
+
+<!-- البيئة التعليمية -->
+<div class="info">
+  <h2 style="text-align:center;">البيئة التعليمية</h2>
+  <table id="learningEnvironmentTable">
+    <tr><th>البند</th><th>يستطيع</th><th>لا يستطيع</th><th>ملاحظات</th></tr>
+    <tr><td>يجلس الطالب في الصف على كرسي وطاولة ملائمين</td><td><input type="radio" name="env1"></td><td><input type="radio" name="env1"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
+    <tr><td>يجلس الطالب بالصف على الفرشة</td><td><input type="radio" name="env2"></td><td><input type="radio" name="env2"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
+    <tr><td>يستخدم الطالب الايباد الموجود داخل الصف</td><td><input type="radio" name="env3"></td><td><input type="radio" name="env3"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
+    <tr><td>يستخدم الطالب البروجكتير داخل الصف</td><td><input type="radio" name="env4"></td><td><input type="radio" name="env4"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
+  </table>
+</div>
+
+<div class="divider"></div>
+
+<!-- التنقل -->
+<div class="info">
+  <h2 style="text-align:center;">التنقل</h2>
+  <div style="margin:10px 0; text-align:right;">
+    <label>نوع الكرسي الخاص بالطالب:</label>
+    <input type="radio" name="chairType" value="كرسي كهربائي"> كرسي كهربائي
+    <input type="radio" name="chairType" value="كرسي مع ملائمات"> كرسي مع ملائمات
+    <input type="radio" name="chairType" value="كرسي عادي"> كرسي عادي
+    <input type="radio" name="chairType" value="ووكر"> ووكر
+  </div>
+  <table id="mobilityTable">
+    <tr><th>البند</th><th>مستقل</th><th>مساعدة جزئية</th><th>مساعدة كاملة</th><th>غير مستقل</th><th>ملاحظات</th></tr>
+    <tr><td>يتنقل مشيا على الاقدام</td><td><input type="radio" name="mobility1"></td><td><input type="radio" name="mobility1"></td><td><input type="radio" name="mobility1"></td><td><input type="radio" name="mobility1"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
+    <tr><td>يتنقل الطالب زحفا على الأطراف</td><td><input type="radio" name="mobility2"></td><td><input type="radio" name="mobility2"></td><td><input type="radio" name="mobility2"></td><td><input type="radio" name="mobility2"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
+    <tr><td>يتنقل الطالب بواسطة كرسي متحرك خاص به</td><td><input type="radio" name="mobility3"></td><td><input type="radio" name="mobility3"></td><td><input type="radio" name="mobility3"></td><td><input type="radio" name="mobility3"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
+    <tr><td>يتنقل الطالب باستخدام الووكر</td><td><input type="radio" name="mobility4"></td><td><input type="radio" name="mobility4"></td><td><input type="radio" name="mobility4"></td><td><input type="radio" name="mobility4"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
+    <tr><td>ينتقل الطالب من الكرسي المتحرك الى كرسي الصف</td><td><input type="radio" name="mobility5"></td><td><input type="radio" name="mobility5"></td><td><input type="radio" name="mobility5"></td><td><input type="radio" name="mobility5"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
+    <tr><td>يصعد الطالب الدرج</td><td><input type="radio" name="mobility6"></td><td><input type="radio" name="mobility6"></td><td><input type="radio" name="mobility6"></td><td><input type="radio" name="mobility6"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
+  </table>
+</div>
+
+<div class="divider"></div>
+
+<!-- المهارات الحياتية -->
+<div class="info">
+  <h2 style="text-align:center;">المهارات الحياتية</h2>
+
+  <!-- الطعام -->
+  <h3 style="text-align:center;">الطعام</h3>
+  <div style="margin:10px 0; text-align:right;">
+    <label>نسيج الطعام:</label>
+    <input type="radio" name="foodTexture" value="عادي"> عادي
+    <input type="radio" name="foodTexture" value="مطحون خشن"> مطحون خشن
+    <input type="radio" name="foodTexture" value="نصف مطحون"> نصف مطحون
+    <input type="radio" name="foodTexture" value="مطحون ناعم"> مطحون ناعم
+    <input type="radio" name="foodTexture" value="פיג"> פיג
+  </div>
+  <div style="margin:10px 0; text-align:right;">
+    <label>يشرب الماء:</label>
+    <input type="radio" name="drinkType" value="كوب"> كوب
+    <input type="radio" name="drinkType" value="قنينة رضاعة"> قنينة رضاعة
+    <input type="radio" name="drinkType" value="كأس مع قشة"> كأس مع قشة
+  </div>
+
+  <table id="foodTable">
+    <tr><th>البند</th><th>مستقل</th><th>مساعدة جزئية</th><th>مساعدة كاملة</th><th>غير مستقل</th><th>ملاحظات</th></tr>
+    <tr><td>يتناول الطالب الطعام بشكل سليم</td><td><input type="radio" name="food1"></td><td><input type="radio" name="food1"></td><td><input type="radio" name="food1"></td><td><input type="radio" name="food1"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
+    <tr><td>يمييز الطالب أدوات الطعام واستخداماتها</td><td><input type="radio" name="food2"></td><td><input type="radio" name="food2"></td><td><input type="radio" name="food2"></td><td><input type="radio" name="food2"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
+    <tr><td>يتوجه الطالب لطلب الطعام</td><td><input type="radio" name="food3"></td><td><input type="radio" name="food3"></td><td><input type="radio" name="food3"></td><td><input type="radio" name="food3"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
+    <tr><td>يوجه الطالب الطعام نحو فمه</td><td><input type="radio" name="food4"></td><td><input type="radio" name="food4"></td><td><input type="radio" name="food4"></td><td><input type="radio" name="food4"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
+    <tr><td>يتناول الطالب الساندويش</td><td><input type="radio" name="food5"></td><td><input type="radio" name="food5"></td><td><input type="radio" name="food5"></td><td><input type="radio" name="food5"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
+    <tr><td>يتناول الطالب الطعام باستخدام الملعقة</td><td><input type="radio" name="food6"></td><td><input type="radio" name="food6"></td><td><input type="radio" name="food6"></td><td><input type="radio" name="food6"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
+  </table>
+
+  <!-- الحمام -->
+  <h3 style="text-align:center;">الحمام</h3>
+  <table id="bathroomTableFirst">
+    <tr><th>البند</th><th>نعم</th><th>لا</th></tr>
+    <tr><td>يلبس الطالب الحفاظ</td><td><input type="radio" name="bathFirst"></td><td><input type="radio" name="bathFirst"></td></tr>
+  </table>
+
+  <table id="bathroomTableRest">
+    <tr><th>البند</th><th>يستطيع</th><th>لا يستطيع</th><th>ملاحظات</th></tr>
+    <tr><td>يستطيع أن يضبط عملية التبول</td><td><input type="radio" name="bath2"></td><td><input type="radio" name="bath2"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
+    <tr><td>يستطيع أن يضبط عملية الإخراج</td><td><input type="radio" name="bath3"></td><td><input type="radio" name="bath3"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
+    <tr><td>يطلب الذهاب الى الحمام</td><td><input type="radio" name="bath4"></td><td><input type="radio" name="bath4"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
+    <tr><td>يستطيع الذهاب الى الحمام و استخدامه</td><td><input type="radio" name="bath5"></td><td><input type="radio" name="bath5"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
+  </table>
+
+  <!-- ارتداء الملابس -->
+  <h3 style="text-align:center;">ارتداء الملابس</h3>
+  <table id="dressingTable">
+    <tr><th>البند</th><th>مستقل</th><th>مساعدة جزئية</th><th>مساعدة كاملة</th><th>غير مستقل</th><th>ملاحظات</th></tr>
+    <tr><td>يمييز الطالب قطع الملابس المناسبة</td><td><input type="radio" name="dress1"></td><td><input type="radio" name="dress1"></td><td><input type="radio" name="dress1"></td><td><input type="radio" name="dress1"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
+    <tr><td>يلبس الطالب الجوارب</td><td><input type="radio" name="dress2"></td><td><input type="radio" name="dress2"></td><td><input type="radio" name="dress2"></td><td><input type="radio" name="dress2"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
+    <tr><td>يخلع الطالب الجوارب</td><td><input type="radio" name="dress3"></td><td><input type="radio" name="dress3"></td><td><input type="radio" name="dress3"></td><td><input type="radio" name="dress3"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
+    <tr><td>يلبس الطالب الحذاء</td><td><input type="radio" name="dress4"></td><td><input type="radio" name="dress4"></td><td><input type="radio" name="dress4"></td><td><input type="radio" name="dress4"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
+    <tr><td>يخلع الطالب الحذاء</td><td><input type="radio" name="dress5"></td><td><input type="radio" name="dress5"></td><td><input type="radio" name="dress5"></td><td><input type="radio" name="dress5"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
+    <tr><td>يلبس الطالب القميص</td><td><input type="radio" name="dress6"></td><td><input type="radio" name="dress6"></td><td><input type="radio" name="dress6"></td><td><input type="radio" name="dress6"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
+    <tr><td>يخلع الطالب القميص</td><td><input type="radio" name="dress7"></td><td><input type="radio" name="dress7"></td><td><input type="radio" name="dress7"></td><td><input type="radio" name="dress7"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
+  </table>
+</div>
+
+<div class="divider"></div>
+
+<!-- المهارات الحركية -->
+<div class="info">
+  <h2 style="text-align:center;">المهارات الحركية</h2>
+  <table id="motorSkillsTable">
+    <tr><th>البند</th><th>يستطيع</th><th>لا يستطيع</th><th>ملاحظات</th></tr>
+    <tr><td>لدى الطالب مدى حركي كامل في الذراع اليمنى AROM</td><td><input type="radio" name="motor1"></td><td><input type="radio" name="motor1"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
+    <tr><td>لدى الطالب مدى حركي كامل في الذراع اليسرى AROM</td><td><input type="radio" name="motor2"></td><td><input type="radio" name="motor2"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
+    <tr><td>لدى الطالب مدى حركي كامل في الذراع اليمنى PROM</td><td><input type="radio" name="motor3"></td><td><input type="radio" name="motor3"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
+    <tr><td>لدى الطالب مدى حركي كامل في الذراع اليسرى PROM</td><td><input type="radio" name="motor4"></td><td><input type="radio" name="motor4"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
+    <tr><td>لدى الطالب مدى حركي كامل في القدم اليمنى AROM</td><td><input type="radio" name="motor5"></td><td><input type="radio" name="motor5"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
+    <tr><td>لدى الطالب مدى حركي كامل في القدم اليسرى AROM</td><td><input type="radio" name="motor6"></td><td><input type="radio" name="motor6"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
+    <tr><td>لدى الطالب مدى حركي كامل في القدم اليمنى PROM</td><td><input type="radio" name="motor7"></td><td><input type="radio" name="motor7"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
+    <tr><td>لدى الطالب مدى حركي كامل في القدم اليسرى PROM</td><td><input type="radio" name="motor8"></td><td><input type="radio" name="motor8"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
+    <tr><td>لدى الطالب سيطرة على الرأس والجذع</td><td><input type="radio" name="motor9"></td><td><input type="radio" name="motor9"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
+    <tr><td>يحرك الطالب رأسه نحو اليمين واليسار</td><td><input type="radio" name="motor10"></td><td><input type="radio" name="motor10"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
+  </table>
+</div>
+
+<!-- الجلوس -->
+<div class="info">
+  <h2 style="text-align:center;">الجلوس</h2>
+  <table id="sittingTable">
+    <tr><th>البند</th><th>يستطيع</th><th>لا يستطيع</th><th>ملاحظات</th></tr>
+    <tr><td>يجلس الطالب بدون دعم</td><td><input type="radio" name="sit1"></td><td><input type="radio" name="sit1"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
+    <tr><td>يجلس الطالب مع دعم</td><td><input type="radio" name="sit2"></td><td><input type="radio" name="sit2"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
+    <tr><td>يحافظ على التوازن في عملية الجلوس</td><td><input type="radio" name="sit3"></td><td><input type="radio" name="sit3"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
+  </table>
+</div>
+
+<!-- الوقوف -->
+<div class="info">
+  <h2 style="text-align:center;">الوقوف</h2>
+  <table id="standingTable">
+    <tr><th>البند</th><th>يستطيع</th><th>لا يستطيع</th><th>ملاحظات</th></tr>
+    <tr><td>يقف الطالب بدون دعم</td><td><input type="radio" name="stand1"></td><td><input type="radio" name="stand1"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
+    <tr><td>بحاجة الى دعم عند الوقوف</td><td><input type="radio" name="stand2"></td><td><input type="radio" name="stand2"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
+    <tr><td>يحافظ على التوازن اثناء عملية الوقوف</td><td><input type="radio" name="stand3"></td><td><input type="radio" name="stand3"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
+    <tr><td>يلتقط الطالب الأغراض من الأرض</td><td><input type="radio" name="stand4"></td><td><input type="radio" name="stand4"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
+  </table>
+</div>
+
+<div class="divider"></div>
+
+<div class="info">
+  <!-- مهارات التركيز والانتباه -->
+  <h2 style="text-align:center;">مهارات التركيز والانتباه</h2>
+  <table id="attentionSkillsTable">
+    <tr><th>البند</th><th>يستطيع</th><th>لا يستطيع</th><th>ملاحظات</th></tr>
+    <tr><td>فترة تركيزه ملائمة للفعالية</td><td><input type="radio" name="att1"></td><td><input type="radio" name="att1"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
+    <tr><td>ينفذ الإرشادات والأوامر</td><td><input type="radio" name="att2"></td><td><input type="radio" name="att2"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
+    <tr><td>يشارك كلاميا</td><td><input type="radio" name="att3"></td><td><input type="radio" name="att3"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
+    <tr><td>يشارك حركيا بالأنشطة</td><td><input type="radio" name="att4"></td><td><input type="radio" name="att4"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
+    <tr><td>ينتظر الدور</td><td><input type="radio" name="att5"></td><td><input type="radio" name="att5"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
+    <tr><td>ينهي المهمة المطلوبة منه</td><td><input type="radio" name="att6"></td><td><input type="radio" name="att6"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
+    <tr><td>مرونة في الانتقال بين الفعاليات</td><td><input type="radio" name="att7"></td><td><input type="radio" name="att7"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
+  </table>
+
+  <!-- مهارات الطاولة -->
+  <h2 style="text-align:center;">مهارات الطاولة</h2>
+  <table id="tableSkillsTable">
+    <tr><th>البند</th><th>يستطيع</th><th>لا يستطيع</th><th>ملاحظات</th></tr>
+    <tr><td>لدى الطالب تتبع بصري</td><td><input type="radio" name="table1"></td><td><input type="radio" name="table1"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
+    <tr><td>لدى الطالب تآزر عين - يد</td><td><input type="radio" name="table2"></td><td><input type="radio" name="table2"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
+    <tr><td>يقطع خط المنتصف</td><td><input type="radio" name="table3"></td><td><input type="radio" name="table3"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
+    <tr><td>تآزر يد - يد</td><td><input type="radio" name="table4"></td><td><input type="radio" name="table4"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
+    <tr><td>Hand-hand manipulation</td><td><input type="radio" name="table5"></td><td><input type="radio" name="table5"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
+    <tr><td>In hand manipulation</td><td><input type="radio" name="table6"></td><td><input type="radio" name="table6"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
+  </table>
+
+  <!-- نوع القبضة -->
+  <h2 style="text-align:center;">نوع القبضة</h2>
+  <div style="margin:10px 0; text-align:right;">
+    <label>اختر نوع القبضة (يمكن اختيار أكثر من نوع):</label><br>
+    <input type="checkbox" name="grip" value="Cylindrical"> Cylindrical
+    <input type="checkbox" name="grip" value="Spherical"> Spherical
+    <input type="checkbox" name="grip" value="Hook"> Hook
+    <input type="checkbox" name="grip" value="Pinch"> Pinch
+    <input type="checkbox" name="grip" value="Tripod"> Tripod
+    <input type="checkbox" name="grip" value="lumbrical"> lumbrical
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ملاحظات عامة للمعالج -->
+<div class="info" style="background: #eef2ff; border: 2px solid #4f46e5;">
+  <h2 style="text-align:center; color: #4f46e5; font-size: 22px; margin-bottom: 10px;">📝 ملاحظات عامة للمعالج</h2>
+  <textarea id="therapistNotes" placeholder="اكتب هنا ملاحظات المعالج..." style="width: 100%; min-height: 180px; padding: 12px; font-size: 16px; border-radius: 10px; border: 1px solid #ccc; resize: vertical; box-sizing: border-box;"></textarea>
+</div>
+
+<div class="divider"></div>
+
+<!-- الأهداف العلاجية العامة -->
+<div class="info" style="background: #f0fdf4; border: 2px solid #10b981; margin-bottom: 20px;">
+  <h2 style="text-align:center; color: #10b981; font-size: 22px; margin-bottom: 10px;">🎯 الأهداف العلاجية العامة</h2>
+  <table id="generalGoalsTable" style="width: 100%; border-collapse: collapse;">
+    <tr style="background: #10b981; color: white;">
+      <th style="padding: 10px;">رقم الهدف</th>
+      <th style="padding: 10px;">الهدف</th>
+      <th style="padding: 10px;">مستوى الإنجاز</th>
+      <th style="padding: 10px;">ملاحظات</th>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td><input type="text" placeholder="اكتب الهدف هنا..." style="width: 100%; padding:5px; border-radius:5px; border:1px solid #ccc;"></td>
+      <td>
+        <select style="width: 100%; padding:5px; border-radius:5px; border:1px solid #ccc;">
+          <option value="">اختر</option>
+          <option value="تم">تم</option>
+          <option value="قيد التنفيذ">قيد التنفيذ</option>
+          <option value="لم يبدأ">لم يبدأ</option>
+        </select>
+      </td>
+      <td><textarea placeholder="أدخل ملاحظات..." style="width: 100%; padding:5px; border-radius:5px; border:1px solid #ccc; resize: vertical;"></textarea></td>
+    </tr>
+  </table>
+  <div style="text-align:center; margin-top: 10px;">
+    <button type="button" style="background:#3b82f6; color:white; border:none; padding:10px 20px; border-radius:8px; cursor:pointer; font-weight:bold;" onclick="addGoalRow()">➕ إضافة هدف جديد</button>
+  </div>
+</div>
+
+<script>
+function addGoalRow() {
+  const table = document.getElementById('generalGoalsTable');
+  const rowCount = table.rows.length;
+  const row = table.insertRow(-1); // إضافة صف في آخر الجدول
+  row.innerHTML = `
+    <td>${rowCount}</td>
+    <td><input type="text" placeholder="اكتب الهدف هنا..." style="width: 100%; padding:5px; border-radius:5px; border:1px solid #ccc;"></td>
+    <td>
+      <select style="width: 100%; padding:5px; border-radius:5px; border:1px solid #ccc;">
+        <option value="">اختر</option>
+        <option value="تم">تم</option>
+        <option value="قيد التنفيذ">قيد التنفيذ</option>
+        <option value="لم يبدأ">لم يبدأ</option>
+      </select>
+    </td>
+    <td><textarea placeholder="أدخل ملاحظات..." style="width: 100%; padding:5px; border-radius:5px; border:1px solid #ccc; resize: vertical;"></textarea></td>
+  `;
+}
+</script>
+
+
+<div class="divider"></div>
+
+<!-- الأهداف العلاجية الخاصة -->
+<div class="info" style="background: #fff7ed; border: 2px solid #f97316; margin-bottom: 20px;">
+  <h2 style="text-align:center; color: #f97316; font-size: 22px; margin-bottom: 10px;">🎯 الأهداف العلاجية الخاصة</h2>
+  <table id="specificGoalsTable" style="width: 100%; border-collapse: collapse;">
+    <tr style="background: #f97316; color: white;">
+      <th style="padding: 10px;">رقم الهدف</th>
+      <th style="padding: 10px;">الهدف</th>
+      <th style="padding: 10px;">مستوى الإنجاز</th>
+      <th style="padding: 10px;">ملاحظات</th>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td><input type="text" placeholder="اكتب الهدف هنا..." style="width: 100%; padding:5px; border-radius:5px; border:1px solid #ccc;"></td>
+      <td>
+        <select style="width: 100%; padding:5px; border-radius:5px; border:1px solid #ccc;">
+          <option value="">اختر</option>
+          <option value="تم">تم</option>
+          <option value="قيد التنفيذ">قيد التنفيذ</option>
+          <option value="لم يبدأ">لم يبدأ</option>
+        </select>
+      </td>
+      <td><textarea placeholder="أدخل ملاحظات..." style="width: 100%; padding:5px; border-radius:5px; border:1px solid #ccc; resize: vertical;"></textarea></td>
+    </tr>
+  </table>
+  <div style="text-align:center; margin-top: 10px;">
+    <button type="button" style="background:#f97316; color:white; border:none; padding:10px 20px; border-radius:8px; cursor:pointer; font-weight:bold;" onclick="addSpecificGoalRow()">➕ إضافة هدف جديد</button>
+  </div>
+</div>
+
+<script>
+function addSpecificGoalRow() {
+  const table = document.getElementById('specificGoalsTable');
+  const rowCount = table.rows.length;
+  const row = table.insertRow(-1); // إضافة صف في آخر الجدول
+  row.innerHTML = `
+    <td>${rowCount}</td>
+    <td><input type="text" placeholder="اكتب الهدف هنا..." style="width: 100%; padding:5px; border-radius:5px; border:1px solid #ccc;"></td>
+    <td>
+      <select style="width: 100%; padding:5px; border-radius:5px; border:1px solid #ccc;">
+        <option value="">اختر</option>
+        <option value="تم">تم</option>
+        <option value="قيد التنفيذ">قيد التنفيذ</option>
+        <option value="لم يبدأ">لم يبدأ</option>
+      </select>
+    </td>
+    <td><textarea placeholder="أدخل ملاحظات..." style="width: 100%; padding:5px; border-radius:5px; border:1px solid #ccc; resize: vertical;"></textarea></td>
+  `;
+}
+</script>
+
+
+<div class="divider"></div>
+ 
+<!--  التوصيات -->
+<div class="info" style="background: #fff7ed; border: 2px solid #f59e0b; margin-bottom: 20px;">
+  <h2 style="text-align:center; color: #f59e0b; font-size: 22px; margin-bottom: 10px;">💡 التوصيات</h2>
+  <textarea id="recommendations" placeholder="اكتب التوصيات هنا..." style="width: 100%; min-height: 100px; padding:10px; border-radius:8px; border:1px solid #ccc; resize: vertical; font-size:16px;"></textarea>
+</div>
+
+<div class="divider"></div>
+
+<div class="buttons">
+  <button class="btn btn-save" onclick="saveExcel()">💾 حفظ Excel</button>
+  <button class="btn btn-print" onclick="window.print()">🖨️ طباعة</button>
+  <button class="btn btn-pdf" onclick="savePDF()">📄 حفظ PDF</button>
+</div>
+
+<script>
+// رفع شعار المؤسسة
+document.getElementById('logoInput').addEventListener('change', function(e){
+  const file = e.target.files[0];
+  if(file){
+    const reader = new FileReader();
+    reader.onload = function(ev){ document.getElementById('logo').src = ev.target.result; }
+    reader.readAsDataURL(file);
+  }
+});
+
+// حفظ Excel
+function saveExcel(){
+  const wb = XLSX.utils.book_new();
+  document.querySelectorAll('.info').forEach((section,index)=>{
+    const table = section.querySelector('table');
+    if(table){
+      const ws = XLSX.utils.table_to_sheet(table);
+      XLSX.utils.book_append_sheet(wb, ws, 'Sheet'+(index+1));
+    }
+  });
+  XLSX.writeFile(wb, 'تقييم.xlsx');
+}
+
+// حفظ PDF
+function savePDF(){
+  const { jsPDF } = window.jspdf;
+  html2canvas(document.body).then(canvas=>{
+    const imgData = canvas.toDataURL('image/png');
+    const pdf = new jsPDF('p','mm','a4');
+    const imgProps=pdf.getImageProperties(imgData);
+    const pdfWidth=210;
+    const pdfHeight=(imgProps.height * pdfWidth)/imgProps.width;
+    pdf.addImage(imgData,'PNG',0,0,pdfWidth,pdfHeight);
+    pdf.save("تقييم.pdf");
+  });
+}
+</script>
+
+</body>
+</html>
