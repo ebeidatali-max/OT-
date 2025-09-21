@@ -47,8 +47,7 @@ th { background: #4f46e5; color: white; }
     <div><label>تاريخ الميلاد:</label><input type="date" id="dob"></div>
     <div><label>رقم الهوية:</label><input type="text" id="idNumber"></div>
     <div><label>تاريخ التقييم:</label><input type="date" id="evalDate"></div>
-    <div><label>رمز المدرسة:</label><input type="date" id="evalDate"></div>
-
+    <div><label>رمز المدرسة:</label><input type="text" id="idNumber"></div>
     <div style="display:flex; gap:15px; align-items:center; justify-content:flex-end;">
       <label>نوع التقييم:</label>
       <input type="radio" name="evalType" value="أولي"> أولي
@@ -90,16 +89,21 @@ th { background: #4f46e5; color: white; }
     <input type="radio" name="chairType" value="كرسي كهربائي"> كرسي كهربائي
     <input type="radio" name="chairType" value="كرسي مع ملائمات"> كرسي مع ملائمات
     <input type="radio" name="chairType" value="كرسي عادي"> كرسي عادي
-    <input type="radio" name="chairType" value="ووكر"> ووكر
+    <input type="radio" name="chairType" value="הליכון">הליכון
   </div>
   <table id="mobilityTable">
     <tr><th>البند</th><th>مستقل</th><th>مساعدة جزئية</th><th>مساعدة كاملة</th><th>غير مستقل</th><th>ملاحظات</th></tr>
     <tr><td>يتنقل مشيا على الاقدام</td><td><input type="radio" name="mobility1"></td><td><input type="radio" name="mobility1"></td><td><input type="radio" name="mobility1"></td><td><input type="radio" name="mobility1"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
     <tr><td>يتنقل الطالب زحفا على الأطراف</td><td><input type="radio" name="mobility2"></td><td><input type="radio" name="mobility2"></td><td><input type="radio" name="mobility2"></td><td><input type="radio" name="mobility2"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
     <tr><td>يتنقل الطالب بواسطة كرسي متحرك خاص به</td><td><input type="radio" name="mobility3"></td><td><input type="radio" name="mobility3"></td><td><input type="radio" name="mobility3"></td><td><input type="radio" name="mobility3"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
-    <tr><td>يتنقل الطالب باستخدام الووكر</td><td><input type="radio" name="mobility4"></td><td><input type="radio" name="mobility4"></td><td><input type="radio" name="mobility4"></td><td><input type="radio" name="mobility4"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
+    <tr><td>يتنقل الطالب باستخدام הליכון </td><td><input type="radio" name="mobility4"></td><td><input type="radio" name="mobility4"></td><td><input type="radio" name="mobility4"></td><td><input type="radio" name="mobility4"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
     <tr><td>ينتقل الطالب من الكرسي المتحرك الى كرسي الصف</td><td><input type="radio" name="mobility5"></td><td><input type="radio" name="mobility5"></td><td><input type="radio" name="mobility5"></td><td><input type="radio" name="mobility5"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
+    <tr><td>ينتقل الطالب من الكرسي المتحرك الى كرسي الحمام</td><td><input type="radio" name="mobility5"></td><td><input type="radio" name="mobility5"></td><td><input type="radio" name="mobility5"></td><td><input type="radio" name="mobility5"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
+    <tr><td>ينتقل الطالب من الكرسي المتحرك الى تخت الحمام</td><td><input type="radio" name="mobility5"></td><td><input type="radio" name="mobility5"></td><td><input type="radio" name="mobility5"></td><td><input type="radio" name="mobility5"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
     <tr><td>يصعد الطالب الدرج</td><td><input type="radio" name="mobility6"></td><td><input type="radio" name="mobility6"></td><td><input type="radio" name="mobility6"></td><td><input type="radio" name="mobility6"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
+    <tr><td>ينزل الطالب الدرج</td><td><input type="radio" name="mobility6"></td><td><input type="radio" name="mobility6"></td><td><input type="radio" name="mobility6"></td><td><input type="radio" name="mobility6"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
+    <tr><td>يستخدم الطالب المصعد</td><td><input type="radio" name="mobility6"></td><td><input type="radio" name="mobility6"></td><td><input type="radio" name="mobility6"></td><td><input type="radio" name="mobility6"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
+    <tr><td>يتنقل الطالب داخل مرافق المدرسة</td><td><input type="radio" name="mobility6"></td><td><input type="radio" name="mobility6"></td><td><input type="radio" name="mobility6"></td><td><input type="radio" name="mobility6"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
   </table>
 </div>
 
@@ -121,7 +125,7 @@ th { background: #4f46e5; color: white; }
   </div>
   <div style="margin:10px 0; text-align:right;">
     <label>يشرب الماء:</label>
-    <input type="radio" name="drinkType" value="كوب"> كوب
+    <input type="radio" name="drinkType" value="كأس"> كأس
     <input type="radio" name="drinkType" value="قنينة رضاعة"> قنينة رضاعة
     <input type="radio" name="drinkType" value="كأس مع قشة"> كأس مع قشة
   </div>
@@ -134,6 +138,10 @@ th { background: #4f46e5; color: white; }
     <tr><td>يوجه الطالب الطعام نحو فمه</td><td><input type="radio" name="food4"></td><td><input type="radio" name="food4"></td><td><input type="radio" name="food4"></td><td><input type="radio" name="food4"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
     <tr><td>يتناول الطالب الساندويش</td><td><input type="radio" name="food5"></td><td><input type="radio" name="food5"></td><td><input type="radio" name="food5"></td><td><input type="radio" name="food5"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
     <tr><td>يتناول الطالب الطعام باستخدام الملعقة</td><td><input type="radio" name="food6"></td><td><input type="radio" name="food6"></td><td><input type="radio" name="food6"></td><td><input type="radio" name="food6"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
+    <tr><td>يغرف الطالب الطعام باستخدام الملعقة</td><td><input type="radio" name="food6"></td><td><input type="radio" name="food6"></td><td><input type="radio" name="food6"></td><td><input type="radio" name="food6"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
+    <tr><td>يضم الطالب شفتيه على الملعقة ويسحب الطعام</td><td><input type="radio" name="food6"></td><td><input type="radio" name="food6"></td><td><input type="radio" name="food6"></td><td><input type="radio" name="food6"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
+    <tr><td>يبقي الطالب الطعام في الفم اثناء المضغ</td><td><input type="radio" name="food6"></td><td><input type="radio" name="food6"></td><td><input type="radio" name="food6"></td><td><input type="radio" name="food6"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
+    <tr><td>يحافظ الطالب على نظافته ونظافة المكان من حوله اثناء الطعام</td><td><input type="radio" name="food6"></td><td><input type="radio" name="food6"></td><td><input type="radio" name="food6"></td><td><input type="radio" name="food6"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
   </table>
 
   <!-- الحمام -->
@@ -160,8 +168,62 @@ th { background: #4f46e5; color: white; }
     <tr><td>يخلع الطالب الجوارب</td><td><input type="radio" name="dress3"></td><td><input type="radio" name="dress3"></td><td><input type="radio" name="dress3"></td><td><input type="radio" name="dress3"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
     <tr><td>يلبس الطالب الحذاء</td><td><input type="radio" name="dress4"></td><td><input type="radio" name="dress4"></td><td><input type="radio" name="dress4"></td><td><input type="radio" name="dress4"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
     <tr><td>يخلع الطالب الحذاء</td><td><input type="radio" name="dress5"></td><td><input type="radio" name="dress5"></td><td><input type="radio" name="dress5"></td><td><input type="radio" name="dress5"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
-    <tr><td>يلبس الطالب القميص</td><td><input type="radio" name="dress6"></td><td><input type="radio" name="dress6"></td><td><input type="radio" name="dress6"></td><td><input type="radio" name="dress6"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
-    <tr><td>يخلع الطالب القميص</td><td><input type="radio" name="dress7"></td><td><input type="radio" name="dress7"></td><td><input type="radio" name="dress7"></td><td><input type="radio" name="dress7"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
+    <tr><td>يغلق ويفتح السكوتش</td><td><input type="radio" name="dress6"></td><td><input type="radio" name="dress6"></td><td><input type="radio" name="dress6"></td><td><input type="radio" name="dress6"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
+    <tr><td>يربط رباط الحذاء</td><td><input type="radio" name="dress7"></td><td><input type="radio" name="dress7"></td><td><input type="radio" name="dress7"></td><td><input type="radio" name="dress7"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
+    <tr><td>يساعد في عملية اللباس</td><td><input type="radio" name="dress7"></td><td><input type="radio" name="dress7"></td><td><input type="radio" name="dress7"></td><td><input type="radio" name="dress7"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
+    <tr><td>يلبس الطالب المعطف</td><td><input type="radio" name="dress7"></td><td><input type="radio" name="dress7"></td><td><input type="radio" name="dress7"></td><td><input type="radio" name="dress7"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
+    <tr><td>يخلع الطالب المعطف</td><td><input type="radio" name="dress7"></td><td><input type="radio" name="dress7"></td><td><input type="radio" name="dress7"></td><td><input type="radio" name="dress7"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
+    <tr><td>يفتح ويغلق السحاب</td><td><input type="radio" name="dress7"></td><td><input type="radio" name="dress7"></td><td><input type="radio" name="dress7"></td><td><input type="radio" name="dress7"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
+  </table>
+</div>
+
+<!-- العناية الذاتية -->
+  <h3 style="text-align:center;">العناية الذاتية</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>البند</th>
+        <th>مستقل</th>
+        <th>مساعدة جزئية</th>
+        <th>مساعدة كاملة</th>
+        <th>غير مستقل</th>
+        <th>ملاحظات</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>يغسل الطالب يديه</td>
+        <td><input type="radio" name="wash_hands" value="مستقل"></td>
+        <td><input type="radio" name="wash_hands" value="مساعدة جزئية"></td>
+        <td><input type="radio" name="wash_hands" value="مساعدة كاملة"></td>
+        <td><input type="radio" name="wash_hands" value="غير مستقل"></td>
+        <td><input type="text" placeholder="ملاحظات"></td>
+      </tr>
+      <tr>
+        <td>يغسل الطالب وجهه</td>
+        <td><input type="radio" name="wash_face" value="مستقل"></td>
+        <td><input type="radio" name="wash_face" value="مساعدة جزئية"></td>
+        <td><input type="radio" name="wash_face" value="مساعدة كاملة"></td>
+        <td><input type="radio" name="wash_face" value="غير مستقل"></td>
+        <td><input type="text" placeholder="ملاحظات"></td>
+      </tr>
+      <tr>
+        <td>ينظف الطالب أسنانه</td>
+        <td><input type="radio" name="brush_teeth" value="مستقل"></td>
+        <td><input type="radio" name="brush_teeth" value="مساعدة جزئية"></td>
+        <td><input type="radio" name="brush_teeth" value="مساعدة كاملة"></td>
+        <td><input type="radio" name="brush_teeth" value="غير مستقل"></td>
+        <td><input type="text" placeholder="ملاحظات"></td>
+      </tr>
+      <tr>
+        <td>يمشط الطالب شعره</td>
+        <td><input type="radio" name="comb_hair" value="مستقل"></td>
+        <td><input type="radio" name="comb_hair" value="مساعدة جزئية"></td>
+        <td><input type="radio" name="comb_hair" value="مساعدة كاملة"></td>
+        <td><input type="radio" name="comb_hair" value="غير مستقل"></td>
+        <td><input type="text" placeholder="ملاحظات"></td>
+      </tr>
+    </tbody>
   </table>
 </div>
 
@@ -420,4 +482,3 @@ function savePDF(){
 
 </body>
 </html>
-
