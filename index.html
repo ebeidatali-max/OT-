@@ -1,485 +1,645 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<title>تقييم علاج وظيفي</title>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-<style>
-body { font-family: "Cairo","Tahoma",sans-serif; direction: rtl; background: #f3f4f6; margin: 0; padding: 20px; }
-header { display: flex; align-items: center; background: linear-gradient(90deg,#4f46e5,#3b82f6); color: white; padding: 15px; border-radius: 12px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
-header img { height: 60px; margin-left: 15px; border-radius: 8px; background: white; padding: 3px; }
-header h1 { margin: 0; font-size: 28px; font-weight: bold; }
-.info { margin-top: 20px; background: #fff; padding: 20px; border-radius: 12px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
-label { font-weight: bold; display: block; margin-bottom: 3px; font-size: 16px; }
-input, textarea { width: 100%; padding: 6px; margin-bottom: 8px; border: 1px solid #ccc; border-radius: 6px; font-size: 16px; box-sizing: border-box; }
-textarea { width: 95%; resize: none; font-size: 15px; min-height:50px; }
-.divider { height: 3px; background: #4f46e5; margin: 25px 0; border-radius: 5px; }
-table { width: 100%; border-collapse: collapse; margin-top: 15px; }
-th, td { border: 1px solid #ddd; padding: 8px; text-align: center; font-size: 16px; }
-th { background: #4f46e5; color: white; }
-.buttons { margin-top: 20px; text-align: center; }
-.btn { padding: 12px 20px; margin: 8px; border: none; border-radius: 10px; cursor: pointer; color: white; font-weight: bold; font-size: 16px; transition: 0.3s; }
-.btn-save { background: #3b82f6; }
-.btn-print { background: #f59e0b; }
-.btn-pdf { background: #10b981; }
-.btn:hover { opacity: 0.9; }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>أوراق عمل التنور اللغوي - النسخة النهائية والمحدثة</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        /* تعريف الخط الأساسي */
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background-color: #f0f0f0;
+        }
+        /* تعريف مقاس صفحة A4 للطباعة */
+        .a4-page {
+            background-color: white;
+            width: 21cm;
+            min-height: 29.7cm;
+            margin: 2cm auto;
+            padding: 2cm;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            position: relative;
+        }
+        /* تنسيقات خاصة بالطباعة */
+        @media print {
+            body {
+                background-color: white;
+                margin: 0;
+            }
+            .a4-page {
+                margin: 0;
+                box-shadow: none;
+                page-break-after: always;
+                width: 100%;
+                height: 100vh;
+            }
+            .no-print {
+                display: none !important;
+            }
+        }
+        /* تنسيق الأجوبة والخطوط */
+        .answer-line {
+            border-bottom: 2px solid #374151; /* خط سميك للإجابة */
+            width: 100%;
+            margin-top: 0.75rem;
+            margin-bottom: 2rem;
+            height: 1px;
+        }
+        .box-option {
+            border: 3px solid #6b7280; /* حدود سميكة للخيار */
+            border-radius: 9999px; /* شكل دائري للخيار */
+            padding: 0.5rem 1.5rem;
+            font-size: 1.5rem; /* حجم خط 24px تقريبا */
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+            display: inline-block;
+            cursor: pointer;
+            background-color: #f3f4f6; /* توحيد الخلفية */
+        }
+        .letter-box {
+            width: 3.5cm;
+            height: 3.5cm;
+            border: 4px dashed #9ca3af;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: #d1d5db;
+            margin-top: 1rem;
+            position: relative; /* للسماح بوضع الخط الإرشادي */
+        }
+        /* إضافة خط إرشادي منقط داخل المربع */
+        .letter-box::after {
+            content: '';
+            position: absolute;
+            bottom: 20%; /* تحديد مستوى الخط */
+            width: 80%;
+            border-bottom: 2px dotted #d1d5db; /* خط منقط خفيف */
+        }
+        .tts-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 120px;
+        }
+        /* تنسيق صور صفحة وصّل */
+        .connect-image-container, .connect-word-container {
+            height: 6cm; 
+            display: flex;
+            align-items: center; 
+        }
+        .connect-image {
+            width: 5cm; 
+            height: 5cm;
+            object-fit: contain;
+        }
+        /* تمييز التشكيل بخط أثقل لزيادة الوضوح */
+        .vocalized-text {
+            font-weight: 900;
+        }
+    </style>
 </head>
-<body>
+<body class="p-4 md:p-0">
 
-<header>
-  <img id="logo" src="logo.png" alt="شعار المؤسسة">
-  <h1> تقييم علاج وظيفي</h1>
-</header>
+    <!-- رسائل التنبيه المخصصة -->
+    <div id="message-container"></div>
 
-<div class="info">
-  <label>📤 رفع شعار المؤسسة:</label>
-  <input type="file" id="logoInput" accept="image/*">
-</div>
+    <!-- زر الطباعة العائم (مخفي عند الطباعة) -->
+    <button onclick="window.print()" class="no-print fixed top-4 right-4 bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-full shadow-lg transition duration-300 z-50 flex items-center">
+        <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m0 0h10m-10 4h10m-7-3h4"></path></svg>
+        اطبع أوراق العمل (A4)
+    </button>
 
-<!-- القسم الأول: معلومات الطالب -->
-<div class="info">
-  <label>المعلومات الخاصة بالطالب:</label>
-  <div style="display:flex; flex-direction:column; gap:5px; text-align:right;">
-    <div><label>اسم الطالب:</label><input type="text" id="name"></div>
-    <div><label>تاريخ الميلاد:</label><input type="date" id="dob"></div>
-    <div><label>رقم الهوية:</label><input type="text" id="idNumber"></div>
-    <div><label>تاريخ التقييم:</label><input type="date" id="evalDate"></div>
-    <div><label>رمز المدرسة:</label><input type="text" id="idNumber"></div>
-    <div style="display:flex; gap:15px; align-items:center; justify-content:flex-end;">
-      <label>نوع التقييم:</label>
-      <input type="radio" name="evalType" value="أولي"> أولي
-      <input type="radio" name="evalType" value="إعادة تقييم"> إعادة تقييم
+    <!-- تعليمات العرض -->
+    <div class="no-print max-w-2xl mx-auto bg-blue-100 border-r-4 border-blue-500 text-blue-700 p-4 mb-4 rounded">
+        <p class="font-bold">تم تحديث الصور والتأكد من وضوحها ✨:</p>
+        <p>تم التأكد من أن جميع الصور الرمزية (Clipart) موجودة وواضحة ضمن حدود الطباعة.</p>
     </div>
-    <div><label>اسم المعالج:</label><input type="text" id="therapist"></div>
-  </div>
-</div>
 
-<div class="divider"></div>
+    <!-- ------------------------------------------------------------------------------------------------------ -->
+    <!-- صفحة 1: سَمِّي الصورة (كتابة أو توصيل ببطاقة) -->
+    <!-- ------------------------------------------------------------------------------------------------------ -->
+    <div class="a4-page flex flex-col justify-between">
+        <div>
+            <h1 class="text-center text-[34pt] font-extrabold text-blue-800 mb-6 border-b-4 border-blue-200 pb-4 vocalized-text">سَمِّ <span class="text-blue-600">ا</span>لصُّورَة</h1>
+            <p class="text-[22pt] text-gray-700 mb-8 font-semibold">
+                اُنظر إلى الصورة. <span class="text-blue-600">اضغط على "استمع" لسماع الاسم</span>، ثم اكتبه تحت الصورة.
+            </p>
 
-<!-- الخلفية الطبية -->
-<div class="info">
-  <label>الخلفية الطبية للطالب:</label>
-  <textarea id="medicalHistory" placeholder="اكتب التفاصيل هنا..."></textarea>
-</div>
+            <!-- شبكة 2x3 للصور والاجابات -->
+            <div class="grid grid-cols-3 gap-x-8 gap-y-12">
+                
+                <!-- 1. تفاحة -->
+                <div class="flex flex-col items-center">
+                    <img src="https://img.icons8.com/plasticine/400/apple.png" alt="تفاحة" style="width: 6.5cm; height: 6.5cm;" class="object-contain p-2 border-2 border-red-300 rounded-lg bg-red-50">
+                    <button onclick="speakArabic('تُفَّاحَة', this)" class="tts-button no-print mt-2 bg-green-100 hover:bg-green-200 text-green-800 text-base py-1 px-3 rounded-full transition duration-150">استمع ✨</button>
+                    <div class="answer-line"></div>
+                </div>
 
-<div class="divider"></div>
+                <!-- 2. كرة -->
+                <div class="flex flex-col items-center">
+                    <img src="https://img.icons8.com/plasticine/400/soccer-ball.png" alt="كرة" style="width: 6.5cm; height: 6.5cm;" class="object-contain p-2 border-2 border-green-300 rounded-lg bg-green-50">
+                    <button onclick="speakArabic('كُرَة', this)" class="tts-button no-print mt-2 bg-green-100 hover:bg-green-200 text-green-800 text-base py-1 px-3 rounded-full transition duration-150">استمع ✨</button>
+                    <div class="answer-line"></div>
+                </div>
 
-<!-- البيئة التعليمية -->
-<div class="info">
-  <h2 style="text-align:center;">البيئة التعليمية</h2>
-  <table id="learningEnvironmentTable">
-    <tr><th>البند</th><th>يستطيع</th><th>لا يستطيع</th><th>ملاحظات</th></tr>
-    <tr><td>يجلس الطالب في الصف على كرسي وطاولة ملائمين</td><td><input type="radio" name="env1"></td><td><input type="radio" name="env1"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
-    <tr><td>يجلس الطالب بالصف على الفرشة</td><td><input type="radio" name="env2"></td><td><input type="radio" name="env2"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
-    <tr><td>يستخدم الطالب الايباد الموجود داخل الصف</td><td><input type="radio" name="env3"></td><td><input type="radio" name="env3"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
-    <tr><td>يستخدم الطالب البروجكتير داخل الصف</td><td><input type="radio" name="env4"></td><td><input type="radio" name="env4"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
-  </table>
-</div>
+                <!-- 3. بيت -->
+                <div class="flex flex-col items-center">
+                    <img src="https://img.icons8.com/plasticine/400/house.png" alt="بيت" style="width: 6.5cm; height: 6.5cm;" class="object-contain p-2 border-2 border-purple-300 rounded-lg bg-purple-50">
+                    <button onclick="speakArabic('بَيْت', this)" class="tts-button no-print mt-2 bg-green-100 hover:bg-green-200 text-green-800 text-base py-1 px-3 rounded-full transition duration-150">استمع ✨</button>
+                    <div class="answer-line"></div>
+                </div>
 
-<div class="divider"></div>
+                <!-- 4. قطة -->
+                <div class="flex flex-col items-center">
+                    <img src="https://img.icons8.com/plasticine/400/cat.png" alt="قطة" style="width: 6.5cm; height: 6.5cm;" class="object-contain p-2 border-2 border-yellow-300 rounded-lg bg-yellow-50">
+                    <button onclick="speakArabic('قِطَّة', this)" class="tts-button no-print mt-2 bg-green-100 hover:bg-green-200 text-green-800 text-base py-1 px-3 rounded-full transition duration-150">استمع ✨</button>
+                    <div class="answer-line"></div>
+                </div>
 
-<!-- التنقل -->
-<div class="info">
-  <h2 style="text-align:center;">التنقل</h2>
-  <div style="margin:10px 0; text-align:right;">
-    <label>نوع الكرسي الخاص بالطالب:</label>
-    <input type="radio" name="chairType" value="كرسي كهربائي"> كرسي كهربائي
-    <input type="radio" name="chairType" value="كرسي مع ملائمات"> كرسي مع ملائمات
-    <input type="radio" name="chairType" value="كرسي عادي"> كرسي عادي
-    <input type="radio" name="chairType" value="הליכון">הליכון
-  </div>
-  <table id="mobilityTable">
-    <tr><th>البند</th><th>مستقل</th><th>مساعدة جزئية</th><th>مساعدة كاملة</th><th>غير مستقل</th><th>ملاحظات</th></tr>
-    <tr><td>يتنقل مشيا على الاقدام</td><td><input type="radio" name="mobility1"></td><td><input type="radio" name="mobility1"></td><td><input type="radio" name="mobility1"></td><td><input type="radio" name="mobility1"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
-    <tr><td>يتنقل الطالب زحفا على الأطراف</td><td><input type="radio" name="mobility2"></td><td><input type="radio" name="mobility2"></td><td><input type="radio" name="mobility2"></td><td><input type="radio" name="mobility2"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
-    <tr><td>يتنقل الطالب بواسطة كرسي متحرك خاص به</td><td><input type="radio" name="mobility3"></td><td><input type="radio" name="mobility3"></td><td><input type="radio" name="mobility3"></td><td><input type="radio" name="mobility3"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
-    <tr><td>يتنقل الطالب باستخدام הליכון </td><td><input type="radio" name="mobility4"></td><td><input type="radio" name="mobility4"></td><td><input type="radio" name="mobility4"></td><td><input type="radio" name="mobility4"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
-    <tr><td>ينتقل الطالب من الكرسي المتحرك الى كرسي الصف</td><td><input type="radio" name="mobility5"></td><td><input type="radio" name="mobility5"></td><td><input type="radio" name="mobility5"></td><td><input type="radio" name="mobility5"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
-    <tr><td>ينتقل الطالب من الكرسي المتحرك الى كرسي الحمام</td><td><input type="radio" name="mobility5"></td><td><input type="radio" name="mobility5"></td><td><input type="radio" name="mobility5"></td><td><input type="radio" name="mobility5"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
-    <tr><td>ينتقل الطالب من الكرسي المتحرك الى تخت الحمام</td><td><input type="radio" name="mobility5"></td><td><input type="radio" name="mobility5"></td><td><input type="radio" name="mobility5"></td><td><input type="radio" name="mobility5"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
-    <tr><td>يصعد الطالب الدرج</td><td><input type="radio" name="mobility6"></td><td><input type="radio" name="mobility6"></td><td><input type="radio" name="mobility6"></td><td><input type="radio" name="mobility6"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
-    <tr><td>ينزل الطالب الدرج</td><td><input type="radio" name="mobility6"></td><td><input type="radio" name="mobility6"></td><td><input type="radio" name="mobility6"></td><td><input type="radio" name="mobility6"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
-    <tr><td>يستخدم الطالب المصعد</td><td><input type="radio" name="mobility6"></td><td><input type="radio" name="mobility6"></td><td><input type="radio" name="mobility6"></td><td><input type="radio" name="mobility6"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
-    <tr><td>يتنقل الطالب داخل مرافق المدرسة</td><td><input type="radio" name="mobility6"></td><td><input type="radio" name="mobility6"></td><td><input type="radio" name="mobility6"></td><td><input type="radio" name="mobility6"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
-  </table>
-</div>
+                <!-- 5. سيارة -->
+                <div class="flex flex-col items-center">
+                    <img src="https://img.icons8.com/plasticine/400/car.png" alt="سيارة" style="width: 6.5cm; height: 6.5cm;" class="object-contain p-2 border-2 border-blue-300 rounded-lg bg-blue-50">
+                    <button onclick="speakArabic('سَيّارَة', this)" class="tts-button no-print mt-2 bg-green-100 hover:bg-green-200 text-green-800 text-base py-1 px-3 rounded-full transition duration-150">استمع ✨</button>
+                    <div class="answer-line"></div>
+                </div>
 
-<div class="divider"></div>
+                <!-- 6. كتاب -->
+                <div class="flex flex-col items-center">
+                    <img src="https://img.icons8.com/plasticine/400/book.png" alt="كتاب" style="width: 6.5cm; height: 6.5cm;" class="object-contain p-2 border-2 border-pink-300 rounded-lg bg-pink-50">
+                    <button onclick="speakArabic('كِتَاب', this)" class="tts-button no-print mt-2 bg-green-100 hover:bg-green-200 text-green-800 text-base py-1 px-3 rounded-full transition duration-150">استمع ✨</button>
+                    <div class="answer-line"></div>
+                </div>
+            </div>
 
-<!-- المهارات الحياتية -->
-<div class="info">
-  <h2 style="text-align:center;">المهارات الحياتية</h2>
+            <!-- مساحة التلوين المحدثة -->
+            <div class="mt-12 mb-4 p-4 border-2 border-dashed border-gray-300 rounded-lg">
+                <div class="text-[18pt] font-bold text-gray-800">نشاط إضافي: لوّن الصورة التي تحبها بالأسفل:</div>
+                <div class="h-10"></div> <!-- مساحة للتلوين أو الرسم -->
+            </div>
 
-  <!-- الطعام -->
-  <h3 style="text-align:center;">الطعام</h3>
-  <div style="margin:10px 0; text-align:right;">
-    <label>نسيج الطعام:</label>
-    <input type="radio" name="foodTexture" value="عادي"> عادي
-    <input type="radio" name="foodTexture" value="مطحون خشن"> مطحون خشن
-    <input type="radio" name="foodTexture" value="نصف مطحون"> نصف مطحون
-    <input type="radio" name="foodTexture" value="مطحون ناعم"> مطحون ناعم
-    <input type="radio" name="foodTexture" value="פיג"> פיג
-  </div>
-  <div style="margin:10px 0; text-align:right;">
-    <label>يشرب الماء:</label>
-    <input type="radio" name="drinkType" value="كأس"> كأس
-    <input type="radio" name="drinkType" value="قنينة رضاعة"> قنينة رضاعة
-    <input type="radio" name="drinkType" value="كأس مع قشة"> كأس مع قشة
-  </div>
+        </div>
+        
+        <!-- تعليمات المعلم -->
+        <footer class="text-left text-[16pt] text-gray-500 pt-4 border-t-2 border-gray-100 italic">
+            تعليمات للمعلم: اقرأ اسم كل صورة ببطء قبل أن يبدأ الطالب. إذا لم يستطع الطالب الكتابة، ضَع له بطاقة مكتوب عليها الاسم تحت الصورة أو دعه يشير للصورة المناسبة.
+            <div class="mt-4 text-right text-gray-600 font-normal not-italic text-base border-t pt-2">
+                الاسم: ........................................ | التاريخ: ....................
+            </div>
+        </footer>
+    </div>
 
-  <table id="foodTable">
-    <tr><th>البند</th><th>مستقل</th><th>مساعدة جزئية</th><th>مساعدة كاملة</th><th>غير مستقل</th><th>ملاحظات</th></tr>
-    <tr><td>يتناول الطالب الطعام بشكل سليم</td><td><input type="radio" name="food1"></td><td><input type="radio" name="food1"></td><td><input type="radio" name="food1"></td><td><input type="radio" name="food1"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
-    <tr><td>يمييز الطالب أدوات الطعام واستخداماتها</td><td><input type="radio" name="food2"></td><td><input type="radio" name="food2"></td><td><input type="radio" name="food2"></td><td><input type="radio" name="food2"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
-    <tr><td>يتوجه الطالب لطلب الطعام</td><td><input type="radio" name="food3"></td><td><input type="radio" name="food3"></td><td><input type="radio" name="food3"></td><td><input type="radio" name="food3"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
-    <tr><td>يوجه الطالب الطعام نحو فمه</td><td><input type="radio" name="food4"></td><td><input type="radio" name="food4"></td><td><input type="radio" name="food4"></td><td><input type="radio" name="food4"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
-    <tr><td>يتناول الطالب الساندويش</td><td><input type="radio" name="food5"></td><td><input type="radio" name="food5"></td><td><input type="radio" name="food5"></td><td><input type="radio" name="food5"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
-    <tr><td>يتناول الطالب الطعام باستخدام الملعقة</td><td><input type="radio" name="food6"></td><td><input type="radio" name="food6"></td><td><input type="radio" name="food6"></td><td><input type="radio" name="food6"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
-    <tr><td>يغرف الطالب الطعام باستخدام الملعقة</td><td><input type="radio" name="food6"></td><td><input type="radio" name="food6"></td><td><input type="radio" name="food6"></td><td><input type="radio" name="food6"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
-    <tr><td>يضم الطالب شفتيه على الملعقة ويسحب الطعام</td><td><input type="radio" name="food6"></td><td><input type="radio" name="food6"></td><td><input type="radio" name="food6"></td><td><input type="radio" name="food6"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
-    <tr><td>يبقي الطالب الطعام في الفم اثناء المضغ</td><td><input type="radio" name="food6"></td><td><input type="radio" name="food6"></td><td><input type="radio" name="food6"></td><td><input type="radio" name="food6"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
-    <tr><td>يحافظ الطالب على نظافته ونظافة المكان من حوله اثناء الطعام</td><td><input type="radio" name="food6"></td><td><input type="radio" name="food6"></td><td><input type="radio" name="food6"></td><td><input type="radio" name="food6"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
-  </table>
+    <!-- ------------------------------------------------------------------------------------------------------ -->
+    <!-- صفحة 2: اختر الاسم الصحيح (اختيار من متعدد) -->
+    <!-- ------------------------------------------------------------------------------------------------------ -->
+    <div class="a4-page flex flex-col justify-between">
+        <div>
+            <h1 class="text-center text-[34pt] font-extrabold text-green-800 mb-6 border-b-4 border-green-200 pb-4 vocalized-text">اخْتَرِ <span class="text-green-600">ا</span>لاسْمَ الصَّحيح</h1>
+            <p class="text-[22pt] text-gray-700 mb-8 font-semibold">
+                أشِر أو دوّر الكلمة التي تطابق الصورة. <span class="text-green-600">استمع إلى الكلمات قبل الاختيار.</span>
+            </p>
 
-  <!-- الحمام -->
-  <h3 style="text-align:center;">الحمام</h3>
-  <table id="bathroomTableFirst">
-    <tr><th>البند</th><th>نعم</th><th>لا</th></tr>
-    <tr><td>يلبس الطالب الحفاظ</td><td><input type="radio" name="bathFirst"></td><td><input type="radio" name="bathFirst"></td></tr>
-  </table>
+            <!-- 4 صفوف اختيار من متعدد -->
+            <div class="flex flex-col space-y-8">
+                
+                <!-- سؤال 1: موزة -->
+                <div class="flex items-center border-b-2 border-dashed border-gray-300 pb-6">
+                    <img src="https://img.icons8.com/plasticine/400/banana.png" alt="موزة" style="width: 4.5cm; height: 4.5cm;" class="object-contain p-2 border-4 border-yellow-400 rounded-full bg-yellow-100 ml-8 flex-shrink-0">
+                    <div class="flex flex-col flex-grow">
+                        <div class="flex items-center space-x-4">
+                            <div class="box-option ml-4 vocalized-text">○ تُفَّاحَة</div>
+                            <button onclick="speakArabic('تُفَّاحَة', this)" class="tts-button no-print bg-gray-200 hover:bg-gray-300 text-gray-800 text-sm py-1 px-3 rounded-full transition duration-150">استمع ✨</button>
+                        </div>
+                        <div class="flex items-center space-x-4">
+                            <div class="box-option ml-4 vocalized-text">○ مَوْزَة</div>
+                            <button onclick="speakArabic('مَوْزَة', this)" class="tts-button no-print bg-gray-200 hover:bg-gray-300 text-gray-800 text-sm py-1 px-3 rounded-full transition duration-150">استمع ✨</button>
+                        </div>
+                        <div class="flex items-center space-x-4">
+                            <div class="box-option ml-4 vocalized-text">○ سَيّارَة</div>
+                            <button onclick="speakArabic('سَيّارَة', this)" class="tts-button no-print bg-gray-200 hover:bg-gray-300 text-gray-800 text-sm py-1 px-3 rounded-full transition duration-150">استمع ✨</button>
+                        </div>
+                    </div>
+                </div>
 
-  <table id="bathroomTableRest">
-    <tr><th>البند</th><th>يستطيع</th><th>لا يستطيع</th><th>ملاحظات</th></tr>
-    <tr><td>يستطيع أن يضبط عملية التبول</td><td><input type="radio" name="bath2"></td><td><input type="radio" name="bath2"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
-    <tr><td>يستطيع أن يضبط عملية الإخراج</td><td><input type="radio" name="bath3"></td><td><input type="radio" name="bath3"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
-    <tr><td>يطلب الذهاب الى الحمام</td><td><input type="radio" name="bath4"></td><td><input type="radio" name="bath4"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
-    <tr><td>يستطيع الذهاب الى الحمام و استخدامه</td><td><input type="radio" name="bath5"></td><td><input type="radio" name="bath5"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
-  </table>
+                <!-- سؤال 2: قطة -->
+                <div class="flex items-center border-b-2 border-dashed border-gray-300 pb-6">
+                    <img src="https://img.icons8.com/plasticine/400/cat.png" alt="قطة" style="width: 4.5cm; height: 4.5cm;" class="object-contain p-2 border-4 border-pink-400 rounded-full bg-pink-100 ml-8 flex-shrink-0">
+                    <div class="flex flex-col flex-grow">
+                        <div class="flex items-center space-x-4">
+                            <div class="box-option ml-4 vocalized-text">○ كَلْب</div>
+                            <button onclick="speakArabic('كَلْب', this)" class="tts-button no-print bg-gray-200 hover:bg-gray-300 text-gray-800 text-sm py-1 px-3 rounded-full transition duration-150">استمع ✨</button>
+                        </div>
+                        <div class="flex items-center space-x-4">
+                            <div class="box-option ml-4 vocalized-text">○ أَرْنَب</div>
+                            <button onclick="speakArabic('أَرْنَب', this)" class="tts-button no-print bg-gray-200 hover:bg-gray-300 text-gray-800 text-sm py-1 px-3 rounded-full transition duration-150">استمع ✨</button>
+                        </div>
+                        <div class="flex items-center space-x-4">
+                            <div class="box-option ml-4 vocalized-text">○ قِطَّة</div>
+                            <button onclick="speakArabic('قِطَّة', this)" class="tts-button no-print bg-gray-200 hover:bg-gray-300 text-gray-800 text-sm py-1 px-3 rounded-full transition duration-150">استمع ✨</button>
+                        </div>
+                    </div>
+                </div>
 
-  <!-- ارتداء الملابس -->
-  <h3 style="text-align:center;">ارتداء الملابس</h3>
-  <table id="dressingTable">
-    <tr><th>البند</th><th>مستقل</th><th>مساعدة جزئية</th><th>مساعدة كاملة</th><th>غير مستقل</th><th>ملاحظات</th></tr>
-    <tr><td>يمييز الطالب قطع الملابس المناسبة</td><td><input type="radio" name="dress1"></td><td><input type="radio" name="dress1"></td><td><input type="radio" name="dress1"></td><td><input type="radio" name="dress1"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
-    <tr><td>يلبس الطالب الجوارب</td><td><input type="radio" name="dress2"></td><td><input type="radio" name="dress2"></td><td><input type="radio" name="dress2"></td><td><input type="radio" name="dress2"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
-    <tr><td>يخلع الطالب الجوارب</td><td><input type="radio" name="dress3"></td><td><input type="radio" name="dress3"></td><td><input type="radio" name="dress3"></td><td><input type="radio" name="dress3"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
-    <tr><td>يلبس الطالب الحذاء</td><td><input type="radio" name="dress4"></td><td><input type="radio" name="dress4"></td><td><input type="radio" name="dress4"></td><td><input type="radio" name="dress4"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
-    <tr><td>يخلع الطالب الحذاء</td><td><input type="radio" name="dress5"></td><td><input type="radio" name="dress5"></td><td><input type="radio" name="dress5"></td><td><input type="radio" name="dress5"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
-    <tr><td>يغلق ويفتح السكوتش</td><td><input type="radio" name="dress6"></td><td><input type="radio" name="dress6"></td><td><input type="radio" name="dress6"></td><td><input type="radio" name="dress6"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
-    <tr><td>يربط رباط الحذاء</td><td><input type="radio" name="dress7"></td><td><input type="radio" name="dress7"></td><td><input type="radio" name="dress7"></td><td><input type="radio" name="dress7"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
-    <tr><td>يساعد في عملية اللباس</td><td><input type="radio" name="dress7"></td><td><input type="radio" name="dress7"></td><td><input type="radio" name="dress7"></td><td><input type="radio" name="dress7"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
-    <tr><td>يلبس الطالب المعطف</td><td><input type="radio" name="dress7"></td><td><input type="radio" name="dress7"></td><td><input type="radio" name="dress7"></td><td><input type="radio" name="dress7"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
-    <tr><td>يخلع الطالب المعطف</td><td><input type="radio" name="dress7"></td><td><input type="radio" name="dress7"></td><td><input type="radio" name="dress7"></td><td><input type="radio" name="dress7"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
-    <tr><td>يفتح ويغلق السحاب</td><td><input type="radio" name="dress7"></td><td><input type="radio" name="dress7"></td><td><input type="radio" name="dress7"></td><td><input type="radio" name="dress7"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
-  </table>
-</div>
+                <!-- سؤال 3: كتاب -->
+                <div class="flex items-center border-b-2 border-dashed border-gray-300 pb-6">
+                    <img src="https://img.icons8.com/plasticine/400/book.png" alt="كتاب" style="width: 4.5cm; height: 4.5cm;" class="object-contain p-2 border-4 border-blue-400 rounded-full bg-blue-100 ml-8 flex-shrink-0">
+                    <div class="flex flex-col flex-grow">
+                        <div class="flex items-center space-x-4">
+                            <div class="box-option ml-4 vocalized-text">○ قَلَم</div>
+                            <button onclick="speakArabic('قَلَم', this)" class="tts-button no-print bg-gray-200 hover:bg-gray-300 text-gray-800 text-sm py-1 px-3 rounded-full transition duration-150">استمع ✨</button>
+                        </div>
+                        <div class="flex items-center space-x-4">
+                            <div class="box-option ml-4 vocalized-text">○ كِتَاب</div>
+                            <button onclick="speakArabic('كِتَاب', this)" class="tts-button no-print bg-gray-200 hover:bg-gray-300 text-gray-800 text-sm py-1 px-3 rounded-full transition duration-150">استمع ✨</button>
+                        </div>
+                        <div class="flex items-center space-x-4">
+                            <div class="box-option ml-4 vocalized-text">○ بَاب</div>
+                            <button onclick="speakArabic('بَاب', this)" class="tts-button no-print bg-gray-200 hover:bg-gray-300 text-gray-800 text-sm py-1 px-3 rounded-full transition duration-150">استمع ✨</button>
+                        </div>
+                    </div>
+                </div>
 
-<!-- العناية الذاتية -->
-  <h3 style="text-align:center;">العناية الذاتية</h3>
-  <table>
-    <thead>
-      <tr>
-        <th>البند</th>
-        <th>مستقل</th>
-        <th>مساعدة جزئية</th>
-        <th>مساعدة كاملة</th>
-        <th>غير مستقل</th>
-        <th>ملاحظات</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>يغسل الطالب يديه</td>
-        <td><input type="radio" name="wash_hands" value="مستقل"></td>
-        <td><input type="radio" name="wash_hands" value="مساعدة جزئية"></td>
-        <td><input type="radio" name="wash_hands" value="مساعدة كاملة"></td>
-        <td><input type="radio" name="wash_hands" value="غير مستقل"></td>
-        <td><input type="text" placeholder="ملاحظات"></td>
-      </tr>
-      <tr>
-        <td>يغسل الطالب وجهه</td>
-        <td><input type="radio" name="wash_face" value="مستقل"></td>
-        <td><input type="radio" name="wash_face" value="مساعدة جزئية"></td>
-        <td><input type="radio" name="wash_face" value="مساعدة كاملة"></td>
-        <td><input type="radio" name="wash_face" value="غير مستقل"></td>
-        <td><input type="text" placeholder="ملاحظات"></td>
-      </tr>
-      <tr>
-        <td>ينظف الطالب أسنانه</td>
-        <td><input type="radio" name="brush_teeth" value="مستقل"></td>
-        <td><input type="radio" name="brush_teeth" value="مساعدة جزئية"></td>
-        <td><input type="radio" name="brush_teeth" value="مساعدة كاملة"></td>
-        <td><input type="radio" name="brush_teeth" value="غير مستقل"></td>
-        <td><input type="text" placeholder="ملاحظات"></td>
-      </tr>
-      <tr>
-        <td>يمشط الطالب شعره</td>
-        <td><input type="radio" name="comb_hair" value="مستقل"></td>
-        <td><input type="radio" name="comb_hair" value="مساعدة جزئية"></td>
-        <td><input type="radio" name="comb_hair" value="مساعدة كاملة"></td>
-        <td><input type="radio" name="comb_hair" value="غير مستقل"></td>
-        <td><input type="text" placeholder="ملاحظات"></td>
-      </tr>
-    </tbody>
-  </table>
-</div>
+                <!-- سؤال 4: سيارة -->
+                <div class="flex items-center">
+                    <img src="https://img.icons8.com/plasticine/400/car.png" alt="سيارة" style="width: 4.5cm; height: 4.5cm;" class="object-contain p-2 border-4 border-red-400 rounded-full bg-red-100 ml-8 flex-shrink-0">
+                    <div class="flex flex-col flex-grow">
+                        <div class="flex items-center space-x-4">
+                            <div class="box-option ml-4 vocalized-text">○ طَائِرَة</div>
+                            <button onclick="speakArabic('طَائِرَة', this)" class="tts-button no-print bg-gray-200 hover:bg-gray-300 text-gray-800 text-sm py-1 px-3 rounded-full transition duration-150">استمع ✨</button>
+                        </div>
+                        <div class="flex items-center space-x-4">
+                            <div class="box-option ml-4 vocalized-text">○ دَرَّاجَة</div>
+                            <button onclick="speakArabic('دَرَّاجَة', this)" class="tts-button no-print bg-gray-200 hover:bg-gray-300 text-gray-800 text-sm py-1 px-3 rounded-full transition duration-150">استمع ✨</button>
+                        </div>
+                        <div class="flex items-center space-x-4">
+                            <div class="box-option ml-4 vocalized-text">○ سَيَّارَة</div>
+                            <button onclick="speakArabic('سَيَّارَة', this)" class="tts-button no-print bg-gray-200 hover:bg-gray-300 text-gray-800 text-sm py-1 px-3 rounded-full transition duration-150">استمع ✨</button>
+                        </div>
+                    </div>
+                </div>
 
-<div class="divider"></div>
+            </div>
+        </div>
+        
+        <!-- تعليمات المعلم -->
+        <footer class="text-left text-[16pt] text-gray-500 pt-4 border-t-2 border-gray-100 italic">
+            تعليمات للمعلم: اقرأ الخيارات بصوت عالٍ واطلب من الطالب تلوين الدائرة بجانب الكلمة الصحيحة أو وضع علامة ✓.
+            <div class="mt-4 text-right text-gray-600 font-normal not-italic text-base border-t pt-2">
+                الاسم: ........................................ | التاريخ: ....................
+            </div>
+        </footer>
+    </div>
 
-<!-- المهارات الحركية -->
-<div class="info">
-  <h2 style="text-align:center;">المهارات الحركية</h2>
-  <table id="motorSkillsTable">
-    <tr><th>البند</th><th>يستطيع</th><th>لا يستطيع</th><th>ملاحظات</th></tr>
-    <tr><td>لدى الطالب مدى حركي كامل في الذراع اليمنى AROM</td><td><input type="radio" name="motor1"></td><td><input type="radio" name="motor1"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
-    <tr><td>لدى الطالب مدى حركي كامل في الذراع اليسرى AROM</td><td><input type="radio" name="motor2"></td><td><input type="radio" name="motor2"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
-    <tr><td>لدى الطالب مدى حركي كامل في الذراع اليمنى PROM</td><td><input type="radio" name="motor3"></td><td><input type="radio" name="motor3"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
-    <tr><td>لدى الطالب مدى حركي كامل في الذراع اليسرى PROM</td><td><input type="radio" name="motor4"></td><td><input type="radio" name="motor4"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
-    <tr><td>لدى الطالب مدى حركي كامل في القدم اليمنى AROM</td><td><input type="radio" name="motor5"></td><td><input type="radio" name="motor5"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
-    <tr><td>لدى الطالب مدى حركي كامل في القدم اليسرى AROM</td><td><input type="radio" name="motor6"></td><td><input type="radio" name="motor6"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
-    <tr><td>لدى الطالب مدى حركي كامل في القدم اليمنى PROM</td><td><input type="radio" name="motor7"></td><td><input type="radio" name="motor7"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
-    <tr><td>لدى الطالب مدى حركي كامل في القدم اليسرى PROM</td><td><input type="radio" name="motor8"></td><td><input type="radio" name="motor8"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
-    <tr><td>لدى الطالب سيطرة على الرأس والجذع</td><td><input type="radio" name="motor9"></td><td><input type="radio" name="motor9"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
-    <tr><td>يحرك الطالب رأسه نحو اليمين واليسار</td><td><input type="radio" name="motor10"></td><td><input type="radio" name="motor10"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
-  </table>
-</div>
+    <!-- ------------------------------------------------------------------------------------------------------ -->
+    <!-- صفحة 3: وصّل (مطابقة) -->
+    <!-- ------------------------------------------------------------------------------------------------------ -->
+    <div class="a4-page flex flex-col justify-between">
+        <div>
+            <h1 class="text-center text-[34pt] font-extrabold text-orange-800 mb-6 border-b-4 border-orange-200 pb-4 vocalized-text">وَصِّلْ</h1>
+            <p class="text-[22pt] text-gray-700 mb-12 font-semibold">
+                اوصل الكلمة بالصورة المناسبة بخط. <span class="text-orange-600">اضغط على زر الاستماع لكل كلمة.</span>
+            </p>
 
-<!-- الجلوس -->
-<div class="info">
-  <h2 style="text-align:center;">الجلوس</h2>
-  <table id="sittingTable">
-    <tr><th>البند</th><th>يستطيع</th><th>لا يستطيع</th><th>ملاحظات</th></tr>
-    <tr><td>يجلس الطالب بدون دعم</td><td><input type="radio" name="sit1"></td><td><input type="radio" name="sit1"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
-    <tr><td>يجلس الطالب مع دعم</td><td><input type="radio" name="sit2"></td><td><input type="radio" name="sit2"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
-    <tr><td>يحافظ على التوازن في عملية الجلوس</td><td><input type="radio" name="sit3"></td><td><input type="radio" name="sit3"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
-  </table>
-</div>
+            <div class="flex justify-between items-start">
+                
+                <!-- العمود الأيمن: الصور -->
+                <div class="w-1/4 flex flex-col items-center pt-2 space-y-4">
+                    <!-- الصورة 1: تفاحة -->
+                    <div class="connect-image-container">
+                        <img src="https://img.icons8.com/plasticine/400/apple.png" alt="تفاحة" class="connect-image p-2 border-4 border-red-400 rounded-xl">
+                    </div>
+                    <!-- الصورة 2: قطة -->
+                    <div class="connect-image-container">
+                        <img src="https://img.icons8.com/plasticine/400/cat.png" alt="قطة" class="connect-image p-2 border-4 border-yellow-400 rounded-xl">
+                    </div>
+                    <!-- الصورة 3: سيارة -->
+                    <div class="connect-image-container">
+                        <img src="https://img.icons8.com/plasticine/400/car.png" alt="سيارة" class="connect-image p-2 border-4 border-blue-400 rounded-xl">
+                    </div>
+                    <!-- الصورة 4: بيت -->
+                    <div class="connect-image-container">
+                        <img src="https://img.icons8.com/plasticine/400/house.png" alt="بيت" class="connect-image p-2 border-4 border-purple-400 rounded-xl">
+                    </div>
+                    <!-- الصورة 5: كرة -->
+                    <div class="connect-image-container">
+                        <img src="https://img.icons8.com/plasticine/400/soccer-ball.png" alt="كرة" class="connect-image p-2 border-4 border-green-400 rounded-xl">
+                    </div>
+                </div>
 
-<!-- الوقوف -->
-<div class="info">
-  <h2 style="text-align:center;">الوقوف</h2>
-  <table id="standingTable">
-    <tr><th>البند</th><th>يستطيع</th><th>لا يستطيع</th><th>ملاحظات</th></tr>
-    <tr><td>يقف الطالب بدون دعم</td><td><input type="radio" name="stand1"></td><td><input type="radio" name="stand1"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
-    <tr><td>بحاجة الى دعم عند الوقوف</td><td><input type="radio" name="stand2"></td><td><input type="radio" name="stand2"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
-    <tr><td>يحافظ على التوازن اثناء عملية الوقوف</td><td><input type="radio" name="stand3"></td><td><input type="radio" name="stand3"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
-    <tr><td>يلتقط الطالب الأغراض من الأرض</td><td><input type="radio" name="stand4"></td><td><input type="radio" name="stand4"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
-  </table>
-</div>
+                <!-- المساحة المركزية الفارغة للخطوط -->
+                <div class="w-2/4 h-full border-l-2 border-r-2 border-dashed border-gray-300 mx-4">
+                    <!-- هذه المساحة فارغة للسماح للطالب برسم خطوط كبيرة وواضحة -->
+                </div>
 
-<div class="divider"></div>
+                <!-- العمود الأيسر: الكلمات -->
+                <div class="w-1/4 flex flex-col items-start pt-8 space-y-4">
+                    <!-- الكلمة 1: كرة -->
+                    <div class="connect-word-container">
+                        <div class="flex items-center space-x-2">
+                            <div class="text-3xl font-black text-gray-800 border-4 border-gray-400 px-6 py-3 rounded-lg bg-gray-100 vocalized-text">☐ كُرَة</div>
+                            <button onclick="speakArabic('كُرَة', this)" class="tts-button no-print bg-gray-200 hover:bg-gray-300 text-gray-800 text-sm py-1 px-3 rounded-full transition duration-150">استمع ✨</button>
+                        </div>
+                    </div>
+                    <!-- الكلمة 2: سيارة -->
+                    <div class="connect-word-container">
+                        <div class="flex items-center space-x-2">
+                            <div class="text-3xl font-black text-gray-800 border-4 border-gray-400 px-6 py-3 rounded-lg bg-gray-100 vocalized-text">☐ سَيَّارَة</div>
+                            <button onclick="speakArabic('سَيَّارَة', this)" class="tts-button no-print bg-gray-200 hover:bg-gray-300 text-gray-800 text-sm py-1 px-3 rounded-full transition duration-150">استمع ✨</button>
+                        </div>
+                    </div>
+                    <!-- الكلمة 3: قطة -->
+                    <div class="connect-word-container">
+                        <div class="flex items-center space-x-2">
+                            <div class="text-3xl font-black text-gray-800 border-4 border-gray-400 px-6 py-3 rounded-lg bg-gray-100 vocalized-text">☐ قِطَّة</div>
+                            <button onclick="speakArabic('قِطَّة', this)" class="tts-button no-print bg-gray-200 hover:bg-gray-300 text-gray-800 text-sm py-1 px-3 rounded-full transition duration-150">استمع ✨</button>
+                        </div>
+                    </div>
+                    <!-- الكلمة 4: تفاحة -->
+                    <div class="connect-word-container">
+                        <div class="flex items-center space-x-2">
+                            <div class="text-3xl font-black text-gray-800 border-4 border-gray-400 px-6 py-3 rounded-lg bg-gray-100 vocalized-text">☐ تُفَّاحَة</div>
+                            <button onclick="speakArabic('تُفَّاحَة', this)" class="tts-button no-print bg-gray-200 hover:bg-gray-300 text-gray-800 text-sm py-1 px-3 rounded-full transition duration-150">استمع ✨</button>
+                        </div>
+                    </div>
+                    <!-- الكلمة 5: بيت -->
+                    <div class="connect-word-container">
+                        <div class="flex items-center space-x-2">
+                            <div class="text-3xl font-black text-gray-800 border-4 border-gray-400 px-6 py-3 rounded-lg bg-gray-100 vocalized-text">☐ بَيْت</div>
+                            <button onclick="speakArabic('بَيْت', this)" class="tts-button no-print bg-gray-200 hover:bg-gray-300 text-gray-800 text-sm py-1 px-3 rounded-full transition duration-150">استمع ✨</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- تعليمات المعلم -->
+        <footer class="text-left text-[16pt] text-gray-500 pt-4 border-t-2 border-gray-100 italic">
+            تعليمات للمعلم: إن أردت نشاطًا تفاعليًا: اطبعي الصفحة مرتين وقطّعي الكلمات لتحويلها إلى بطاقات مطابقة لتمرين لمسي.
+            <div class="mt-4 text-right text-gray-600 font-normal not-italic text-base border-t pt-2">
+                الاسم: ........................................ | التاريخ: ....................
+            </div>
+        </footer>
+    </div>
 
-<div class="info">
-  <!-- مهارات التركيز والانتباه -->
-  <h2 style="text-align:center;">مهارات التركيز والانتباه</h2>
-  <table id="attentionSkillsTable">
-    <tr><th>البند</th><th>يستطيع</th><th>لا يستطيع</th><th>ملاحظات</th></tr>
-    <tr><td>فترة تركيزه ملائمة للفعالية</td><td><input type="radio" name="att1"></td><td><input type="radio" name="att1"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
-    <tr><td>ينفذ الإرشادات والأوامر</td><td><input type="radio" name="att2"></td><td><input type="radio" name="att2"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
-    <tr><td>يشارك كلاميا</td><td><input type="radio" name="att3"></td><td><input type="radio" name="att3"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
-    <tr><td>يشارك حركيا بالأنشطة</td><td><input type="radio" name="att4"></td><td><input type="radio" name="att4"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
-    <tr><td>ينتظر الدور</td><td><input type="radio" name="att5"></td><td><input type="radio" name="att5"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
-    <tr><td>ينهي المهمة المطلوبة منه</td><td><input type="radio" name="att6"></td><td><input type="radio" name="att6"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
-    <tr><td>مرونة في الانتقال بين الفعاليات</td><td><input type="radio" name="att7"></td><td><input type="radio" name="att7"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
-  </table>
+    <!-- ------------------------------------------------------------------------------------------------------ -->
+    <!-- صفحة 4: اكتب الحرف الأول -->
+    <!-- ------------------------------------------------------------------------------------------------------ -->
+    <div class="a4-page flex flex-col justify-between">
+        <div>
+            <h1 class="text-center text-[34pt] font-extrabold text-red-800 mb-6 border-b-4 border-red-200 pb-4 vocalized-text">اكْتُبِ <span class="text-red-600">ا</span>لْحَرْفَ <span class="text-red-600">ا</span>لأَوَّل</h1>
+            <p class="text-[22pt] text-gray-700 mb-8 font-semibold">
+                اُنظر إلى الصورة. <span class="text-red-600">اضغط على "استمع" لسماع الاسم</span>، ثم اكتب الحرف الأول من اسمها في المربع.
+            </p>
 
-  <!-- فعاليات الطاولة -->
-  <h2 style="text-align:center;">فعاليات الطاولة</h2>
-  <table id="tableSkillsTable">
-    <tr><th>البند</th><th>يستطيع</th><th>لا يستطيع</th><th>ملاحظات</th></tr>
-    <tr><td>لدى الطالب تتبع بصري</td><td><input type="radio" name="table1"></td><td><input type="radio" name="table1"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
-    <tr><td>لدى الطالب تآزر عين - يد</td><td><input type="radio" name="table2"></td><td><input type="radio" name="table2"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
-    <tr><td>يقطع خط المنتصف</td><td><input type="radio" name="table3"></td><td><input type="radio" name="table3"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
-    <tr><td>تآزر يد - يد</td><td><input type="radio" name="table4"></td><td><input type="radio" name="table4"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
-    <tr><td>Hand-hand manipulation</td><td><input type="radio" name="table5"></td><td><input type="radio" name="table5"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
-    <tr><td>In hand manipulation</td><td><input type="radio" name="table6"></td><td><input type="radio" name="table6"></td><td><textarea placeholder="أدخل ملاحظات..."></textarea></td></tr>
-  </table>
+            <!-- شبكة 2x3 للصور ومربعات الحروف -->
+            <div class="grid grid-cols-3 gap-x-8 gap-y-12">
+                
+                <!-- 1. تفاحة -->
+                <div class="flex flex-col items-center">
+                    <img src="https://img.icons8.com/plasticine/400/apple.png" alt="تفاحة" style="width: 6.5cm; height: 6.5cm;" class="object-contain p-2 border-2 border-red-300 rounded-lg bg-red-50">
+                    <button onclick="speakArabic('تُفَّاحَة', this)" class="tts-button no-print mt-2 bg-red-100 hover:bg-red-200 text-red-800 text-base py-1 px-3 rounded-full transition duration-150">استمع ✨</button>
+                    <div class="letter-box"></div>
+                </div>
 
-  <!-- نوع القبضة -->
-  <h2 style="text-align:center;">نوع القبضة</h2>
-  <div style="margin:10px 0; text-align:right;">
-    <label>اختر نوع القبضة (يمكن اختيار أكثر من نوع):</label><br>
-    <input type="checkbox" name="grip" value="Cylindrical"> Cylindrical
-    <input type="checkbox" name="grip" value="Spherical"> Spherical
-    <input type="checkbox" name="grip" value="Hook"> Hook
-    <input type="checkbox" name="grip" value="Pinch"> Pinch
-    <input type="checkbox" name="grip" value="Tripod"> Tripod
-    <input type="checkbox" name="grip" value="lumbrical"> lumbrical
-  </div>
-</div>
+                <!-- 2. بيت -->
+                <div class="flex flex-col items-center">
+                    <img src="https://img.icons8.com/plasticine/400/house.png" alt="بيت" style="width: 6.5cm; height: 6.5cm;" class="object-contain p-2 border-2 border-purple-300 rounded-lg bg-purple-50">
+                    <button onclick="speakArabic('بَيْت', this)" class="tts-button no-print mt-2 bg-red-100 hover:bg-red-200 text-red-800 text-base py-1 px-3 rounded-full transition duration-150">استمع ✨</button>
+                    <div class="letter-box"></div>
+                </div>
 
-<div class="divider"></div>
+                <!-- 3. سيارة -->
+                <div class="flex flex-col items-center">
+                    <img src="https://img.icons8.com/plasticine/400/car.png" alt="سيارة" style="width: 6.5cm; height: 6.5cm;" class="object-contain p-2 border-2 border-blue-300 rounded-lg bg-blue-50">
+                    <button onclick="speakArabic('سَيّارَة', this)" class="tts-button no-print mt-2 bg-red-100 hover:bg-red-200 text-red-800 text-base py-1 px-3 rounded-full transition duration-150">استمع ✨</button>
+                    <div class="letter-box"></div>
+                </div>
 
-<!-- ملاحظات عامة للمعالج -->
-<div class="info" style="background: #eef2ff; border: 2px solid #4f46e5;">
-  <h2 style="text-align:center; color: #4f46e5; font-size: 22px; margin-bottom: 10px;">📝 ملاحظات عامة للمعالج</h2>
-  <textarea id="therapistNotes" placeholder="اكتب هنا ملاحظات المعالج..." style="width: 100%; min-height: 180px; padding: 12px; font-size: 16px; border-radius: 10px; border: 1px solid #ccc; resize: vertical; box-sizing: border-box;"></textarea>
-</div>
+                <!-- 4. قطة -->
+                <div class="flex flex-col items-center">
+                    <img src="https://img.icons8.com/plasticine/400/cat.png" alt="قطة" style="width: 6.5cm; height: 6.5cm;" class="object-contain p-2 border-2 border-yellow-300 rounded-lg bg-yellow-50">
+                    <button onclick="speakArabic('قِطَّة', this)" class="tts-button no-print mt-2 bg-red-100 hover:bg-red-200 text-red-800 text-base py-1 px-3 rounded-full transition duration-150">استمع ✨</button>
+                    <div class="letter-box"></div>
+                </div>
 
-<div class="divider"></div>
+                <!-- 5. كتاب -->
+                <div class="flex flex-col items-center">
+                    <img src="https://img.icons8.com/plasticine/400/book.png" alt="كتاب" style="width: 6.5cm; height: 6.5cm;" class="object-contain p-2 border-2 border-pink-300 rounded-lg bg-pink-50">
+                    <button onclick="speakArabic('كِتَاب', this)" class="tts-button no-print mt-2 bg-red-100 hover:bg-red-200 text-red-800 text-base py-1 px-3 rounded-full transition duration-150">استمع ✨</button>
+                    <div class="letter-box"></div>
+                </div>
 
-<!-- الأهداف العلاجية العامة -->
-<div class="info" style="background: #f0fdf4; border: 2px solid #10b981; margin-bottom: 20px;">
-  <h2 style="text-align:center; color: #10b981; font-size: 22px; margin-bottom: 10px;">🎯 الأهداف العلاجية العامة</h2>
-  <table id="generalGoalsTable" style="width: 100%; border-collapse: collapse;">
-    <tr style="background: #10b981; color: white;">
-      <th style="padding: 10px;">رقم الهدف</th>
-      <th style="padding: 10px;">الهدف</th>
-      <th style="padding: 10px;">مستوى الإنجاز</th>
-      <th style="padding: 10px;">ملاحظات</th>
-    </tr>
-    <tr>
-      <td>1</td>
-      <td><input type="text" placeholder="اكتب الهدف هنا..." style="width: 100%; padding:5px; border-radius:5px; border:1px solid #ccc;"></td>
-      <td>
-        <select style="width: 100%; padding:5px; border-radius:5px; border:1px solid #ccc;">
-          <option value="">اختر</option>
-          <option value="تم">تم</option>
-          <option value="قيد التنفيذ">قيد التنفيذ</option>
-          <option value="لم يبدأ">لم يبدأ</option>
-        </select>
-      </td>
-      <td><textarea placeholder="أدخل ملاحظات..." style="width: 100%; padding:5px; border-radius:5px; border:1px solid #ccc; resize: vertical;"></textarea></td>
-    </tr>
-  </table>
-  <div style="text-align:center; margin-top: 10px;">
-    <button type="button" style="background:#3b82f6; color:white; border:none; padding:10px 20px; border-radius:8px; cursor:pointer; font-weight:bold;" onclick="addGoalRow()">➕ إضافة هدف جديد</button>
-  </div>
-</div>
+                <!-- 6. كرة -->
+                <div class="flex flex-col items-center">
+                    <img src="https://img.icons8.com/plasticine/400/soccer-ball.png" alt="كرة" style="width: 6.5cm; height: 6.5cm;" class="object-contain p-2 border-2 border-green-300 rounded-lg bg-green-50">
+                    <button onclick="speakArabic('كُرَة', this)" class="tts-button no-print mt-2 bg-red-100 hover:bg-red-200 text-red-800 text-base py-1 px-3 rounded-full transition duration-150">استمع ✨</button>
+                    <div class="letter-box"></div>
+                </div>
+            </div>
 
-<script>
-function addGoalRow() {
-  const table = document.getElementById('generalGoalsTable');
-  const rowCount = table.rows.length;
-  const row = table.insertRow(-1); // إضافة صف في آخر الجدول
-  row.innerHTML = `
-    <td>${rowCount}</td>
-    <td><input type="text" placeholder="اكتب الهدف هنا..." style="width: 100%; padding:5px; border-radius:5px; border:1px solid #ccc;"></td>
-    <td>
-      <select style="width: 100%; padding:5px; border-radius:5px; border:1px solid #ccc;">
-        <option value="">اختر</option>
-        <option value="تم">تم</option>
-        <option value="قيد التنفيذ">قيد التنفيذ</option>
-        <option value="لم يبدأ">لم يبدأ</option>
-      </select>
-    </td>
-    <td><textarea placeholder="أدخل ملاحظات..." style="width: 100%; padding:5px; border-radius:5px; border:1px solid #ccc; resize: vertical;"></textarea></td>
-  `;
-}
-</script>
+            <!-- إنجاز -->
+            <div class="mt-12 text-center text-[18pt] font-black text-gray-800">
+                عَمَلٌ مُمْتَاز! ضَعْ نَجْمَةً إِذا أَنْجَزْتَ كُلَّ شَيْء: <span class="border-4 border-green-500 inline-block w-8 h-8 rounded-md align-middle mr-2">☐</span>
+            </div>
+
+        </div>
+        
+        <!-- تعليمات المعلم -->
+        <footer class="text-left text-[16pt] text-gray-500 pt-4 border-t-2 border-gray-100 italic">
+            تعليمات للمعلم: نطق اسم الصورة بوضوح، ثم دلّ الطالب على الحرف الأول. استخدم بطاقات الحروف للمساعدة إذا لزم.
+            <div class="mt-4 text-right text-gray-600 font-normal not-italic text-base border-t pt-2">
+                الاسم: ........................................ | التاريخ: ....................
+            </div>
+        </footer>
+    </div>
+
+    <script type="module">
+        // Global variables for Firebase configuration (Required for API usage in Canvas environment)
+        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {};
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+
+        // --- TTS Utility Functions (PCM to WAV conversion) ---
+
+        function base64ToArrayBuffer(base64) {
+            const binaryString = atob(base64);
+            const len = binaryString.length;
+            const bytes = new Uint8Array(len);
+            for (let i = 0; i < len; i++) {
+                bytes[i] = binaryString.charCodeAt(i);
+            }
+            return bytes.buffer;
+        }
+
+        function writeString(view, offset, string) {
+            for (let i = 0; i < string.length; i++) {
+                view.setUint8(offset + i, string.charCodeAt(i));
+            }
+        }
+
+        function pcmToWav(pcm16, sampleRate = 24000) {
+            const numChannels = 1;
+            const bitsPerSample = 16;
+            const byteRate = sampleRate * numChannels * (bitsPerSample / 8);
+            const blockAlign = numChannels * (bitsPerSample / 8);
+            const dataSize = pcm16.byteLength;
+            const buffer = new ArrayBuffer(44 + dataSize);
+            const view = new DataView(buffer);
+            let offset = 0;
+
+            // RIFF chunk
+            writeString(view, offset, 'RIFF'); offset += 4;
+            view.setUint32(offset, 36 + dataSize, true); offset += 4;
+            writeString(view, offset, 'WAVE'); offset += 4;
+
+            // fmt chunk
+            writeString(view, offset, 'fmt '); offset += 4;
+            view.setUint32(offset, 16, true); offset += 4; // Subchunk1Size
+            view.setUint16(offset, 1, true); offset += 2; // AudioFormat (1 for PCM)
+            view.setUint16(offset, numChannels, true); offset += 2; // NumChannels
+            view.setUint32(offset, sampleRate, true); offset += 4; // SampleRate
+            view.setUint32(offset, byteRate, true); offset += 4; // ByteRate
+            view.setUint16(offset, blockAlign, true); offset += 2; // BlockAlign
+            view.setUint16(offset, bitsPerSample, true); offset += 2; // BitsPerSample
+
+            // data chunk
+            writeString(view, offset, 'data'); offset += 4;
+            view.setUint32(offset, dataSize, true); offset += 4;
+            
+            // Write PCM data
+            const pcmBytes = new Uint8Array(pcm16.buffer);
+            for (let i = 0; i < pcmBytes.length; i++, offset++) {
+                view.setUint8(offset, pcmBytes[i]);
+            }
+
+            return new Blob([view], { type: 'audio/wav' });
+        }
+
+        // --- Custom Message Display ---
+        function displayMessage(message, color) {
+            const messageContainer = document.getElementById('message-container');
+            if (!messageContainer) return;
+            
+            const colors = {
+                'red': 'bg-red-500',
+                'green': 'bg-green-500',
+                'blue': 'bg-blue-500'
+            };
+            
+            messageContainer.innerHTML = `<div class="${colors[color] || 'bg-gray-500'} text-white text-center p-3 rounded-lg shadow-xl mb-4 fixed top-20 left-1/2 transform -translate-x-1/2 z-[100]">${message}</div>`;
+            
+            setTimeout(() => {
+                messageContainer.innerHTML = '';
+            }, 4000);
+        }
+
+        // --- Fetch with Exponential Backoff ---
+        async function fetchWithRetry(url, options, maxRetries = 5) {
+            let lastError = null;
+            for (let i = 0; i < maxRetries; i++) {
+                try {
+                    const response = await fetch(url, options);
+                    if (response.status === 429 && i < maxRetries - 1) {
+                        const delay = Math.pow(2, i) * 1000 + Math.random() * 1000;
+                        await new Promise(resolve => setTimeout(resolve, delay));
+                        continue;
+                    }
+                    if (!response.ok) {
+                        const errorBody = await response.text();
+                        throw new Error(`API call failed with status: ${response.status}. Body: ${errorBody}`);
+                    }
+                    return response;
+                } catch (error) {
+                    lastError = error;
+                    const delay = Math.pow(2, i) * 1000 + Math.random() * 1000;
+                    if (i < maxRetries - 1) {
+                        await new Promise(resolve => setTimeout(resolve, delay));
+                    }
+                }
+            }
+            throw new Error(`Gemini API call failed after ${maxRetries} retries: ${lastError ? lastError.message : 'Unknown error'}`);
+        }
+
+        // --- Core TTS Function using Gemini API ---
+        window.speakArabic = async function(text, buttonElement) {
+            if (typeof AudioContext === 'undefined') {
+                displayMessage("خطأ: لا يدعم المتصفح تشغيل الصوت.", 'red');
+                return;
+            }
+
+            const originalText = buttonElement.innerHTML;
+            buttonElement.innerHTML = '... جاري التحميل'; // Loading state
+            buttonElement.disabled = true;
+
+            try {
+                const payload = {
+                    contents: [{
+                        // Add a small instruction to ensure clear Arabic pronunciation
+                        parts: [{ text: `انطق بصوت واضح وجذاب في اللغة العربية الفصحى: ${text}` }]
+                    }],
+                    generationConfig: {
+                        responseModalities: ["AUDIO"],
+                        speechConfig: {
+                            // Using the Kore voice for clear, firm pronunciation
+                            voiceConfig: { prebuiltVoiceConfig: { voiceName: "Kore" } }
+                        }
+                    },
+                    model: "gemini-2.5-flash-preview-tts"
+                };
+                
+                const apiKey = ""; // API key is provided by the environment
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-tts:generateContent?key=${apiKey}`;
+
+                const response = await fetchWithRetry(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                const result = await response.json();
+                
+                const part = result?.candidates?.[0]?.content?.parts?.[0];
+                const audioData = part?.inlineData?.data;
+                const mimeType = part?.inlineData?.mimeType;
+
+                if (audioData && mimeType && mimeType.startsWith("audio/")) {
+                    // Extract sample rate (default to 24000 if not found)
+                    const sampleRateMatch = mimeType.match(/rate=(\d+)/);
+                    const sampleRate = sampleRateMatch ? parseInt(sampleRateMatch[1], 10) : 24000;
+                    
+                    const pcmData = base64ToArrayBuffer(audioData);
+                    const pcm16 = new Int16Array(pcmData);
+                    const wavBlob = pcmToWav(pcm16, sampleRate);
+                    
+                    const audio = new Audio(URL.createObjectURL(wavBlob));
+                    audio.play();
+                    displayMessage(`يتم الآن تشغيل كلمة: ${text}`, 'blue');
 
 
-<div class="divider"></div>
+                    audio.onended = () => {
+                        buttonElement.innerHTML = originalText;
+                        buttonElement.disabled = false;
+                        URL.revokeObjectURL(audio.src); // Clean up the object URL
+                    };
 
-<!-- الأهداف العلاجية الخاصة -->
-<div class="info" style="background: #fff7ed; border: 2px solid #f97316; margin-bottom: 20px;">
-  <h2 style="text-align:center; color: #f97316; font-size: 22px; margin-bottom: 10px;">🎯 الأهداف العلاجية الخاصة</h2>
-  <table id="specificGoalsTable" style="width: 100%; border-collapse: collapse;">
-    <tr style="background: #f97316; color: white;">
-      <th style="padding: 10px;">رقم الهدف</th>
-      <th style="padding: 10px;">الهدف</th>
-      <th style="padding: 10px;">مستوى الإنجاز</th>
-      <th style="padding: 10px;">ملاحظات</th>
-    </tr>
-    <tr>
-      <td>1</td>
-      <td><input type="text" placeholder="اكتب الهدف هنا..." style="width: 100%; padding:5px; border-radius:5px; border:1px solid #ccc;"></td>
-      <td>
-        <select style="width: 100%; padding:5px; border-radius:5px; border:1px solid #ccc;">
-          <option value="">اختر</option>
-          <option value="تم">تم</option>
-          <option value="قيد التنفيذ">قيد التنفيذ</option>
-          <option value="لم يبدأ">لم يبدأ</option>
-        </select>
-      </td>
-      <td><textarea placeholder="أدخل ملاحظات..." style="width: 100%; padding:5px; border-radius:5px; border:1px solid #ccc; resize: vertical;"></textarea></td>
-    </tr>
-  </table>
-  <div style="text-align:center; margin-top: 10px;">
-    <button type="button" style="background:#f97316; color:white; border:none; padding:10px 20px; border-radius:8px; cursor:pointer; font-weight:bold;" onclick="addSpecificGoalRow()">➕ إضافة هدف جديد</button>
-  </div>
-</div>
+                } else {
+                    displayMessage('عذرًا، فشل توليد الصوت من API. قد تكون الكلمة غير مدعومة.', 'red');
+                }
 
-<script>
-function addSpecificGoalRow() {
-  const table = document.getElementById('specificGoalsTable');
-  const rowCount = table.rows.length;
-  const row = table.insertRow(-1); // إضافة صف في آخر الجدول
-  row.innerHTML = `
-    <td>${rowCount}</td>
-    <td><input type="text" placeholder="اكتب الهدف هنا..." style="width: 100%; padding:5px; border-radius:5px; border:1px solid #ccc;"></td>
-    <td>
-      <select style="width: 100%; padding:5px; border-radius:5px; border:1px solid #ccc;">
-        <option value="">اختر</option>
-        <option value="تم">تم</option>
-        <option value="قيد التنفيذ">قيد التنفيذ</option>
-        <option value="لم يبدأ">لم يبدأ</option>
-      </select>
-    </td>
-    <td><textarea placeholder="أدخل ملاحظات..." style="width: 100%; padding:5px; border-radius:5px; border:1px solid #ccc; resize: vertical;"></textarea></td>
-  `;
-}
-</script>
-
-
-<div class="divider"></div>
- 
-<!--  التوصيات -->
-<div class="info" style="background: #fff7ed; border: 2px solid #f59e0b; margin-bottom: 20px;">
-  <h2 style="text-align:center; color: #f59e0b; font-size: 22px; margin-bottom: 10px;">💡 التوصيات</h2>
-  <textarea id="recommendations" placeholder="اكتب التوصيات هنا..." style="width: 100%; min-height: 100px; padding:10px; border-radius:8px; border:1px solid #ccc; resize: vertical; font-size:16px;"></textarea>
-</div>
-
-<div class="divider"></div>
-
-<div class="buttons">
-  <button class="btn btn-save" onclick="saveExcel()">💾 حفظ Excel</button>
-  <button class="btn btn-print" onclick="window.print()">🖨️ طباعة</button>
-  <button class="btn btn-pdf" onclick="savePDF()">📄 حفظ PDF</button>
-</div>
-
-<script>
-// رفع شعار المؤسسة
-document.getElementById('logoInput').addEventListener('change', function(e){
-  const file = e.target.files[0];
-  if(file){
-    const reader = new FileReader();
-    reader.onload = function(ev){ document.getElementById('logo').src = ev.target.result; }
-    reader.readAsDataURL(file);
-  }
-});
-
-// حفظ Excel
-function saveExcel(){
-  const wb = XLSX.utils.book_new();
-  document.querySelectorAll('.info').forEach((section,index)=>{
-    const table = section.querySelector('table');
-    if(table){
-      const ws = XLSX.utils.table_to_sheet(table);
-      XLSX.utils.book_append_sheet(wb, ws, 'Sheet'+(index+1));
-    }
-  });
-  XLSX.writeFile(wb, 'تقييم.xlsx');
-}
-
-// حفظ PDF
-function savePDF(){
-  const { jsPDF } = window.jspdf;
-  html2canvas(document.body).then(canvas=>{
-    const imgData = canvas.toDataURL('image/png');
-    const pdf = new jsPDF('p','mm','a4');
-    const imgProps=pdf.getImageProperties(imgData);
-    const pdfWidth=210;
-    const pdfHeight=(imgProps.height * pdfWidth)/imgProps.width;
-    pdf.addImage(imgData,'PNG',0,0,pdfWidth,pdfHeight);
-    pdf.save("تقييم.pdf");
-  });
-}
-</script>
+            } catch (error) {
+                console.error("TTS API Error:", error);
+                displayMessage('حدث خطأ أثناء الاتصال بخدمة الصوت. حاول مرة أخرى.', 'red');
+            } finally {
+                // Ensure the button resets if an error occurs
+                if(buttonElement.disabled && !buttonElement.innerHTML.includes('...')) {
+                    buttonElement.innerHTML = originalText;
+                    buttonElement.disabled = false;
+                }
+            }
+        }
+    </script>
 
 </body>
 </html>
-
