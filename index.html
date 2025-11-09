@@ -58,9 +58,10 @@
             cursor: pointer;
             background-color: #f3f4f6; /* توحيد الخلفية */
         }
+        /* تم زيادة حجم مربع الحرف */
         .letter-box {
-            width: 3.5cm;
-            height: 3.5cm;
+            width: 4.5cm; /* تم الزيادة */
+            height: 4.5cm; /* تم الزيادة */
             border: 4px dashed #9ca3af;
             display: flex;
             justify-content: center;
@@ -85,16 +86,17 @@
             justify-content: center;
             min-width: 120px;
         }
-        /* تنسيق صور صفحة وصّل */
+        /* تنسيق صور صفحة وصّل (تم تعديله ليكون أكثر وضوحاً وتفريقاً) */
         .connect-image-container, .connect-word-container {
-            height: 6cm; 
+            height: 7.5cm; /* زيادة التباعد بين العناصر */
             display: flex;
             align-items: center; 
         }
         .connect-image {
-            width: 5cm; 
-            height: 5cm;
+            width: 6.0cm; /* زيادة الحجم */
+            height: 6.0cm; /* زيادة الحجم */
             object-fit: contain;
+            border: 5px solid; /* زيادة سمك الحد لزيادة الوضوح */
         }
         /* تمييز التشكيل بخط أثقل لزيادة الوضوح */
         .vocalized-text {
@@ -104,24 +106,18 @@
 </head>
 <body class="p-4 md:p-0">
 
-    <!-- رسائل التنبيه المخصصة -->
     <div id="message-container"></div>
 
-    <!-- زر الطباعة العائم (مخفي عند الطباعة) -->
     <button onclick="window.print()" class="no-print fixed top-4 right-4 bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-full shadow-lg transition duration-300 z-50 flex items-center">
         <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m0 0h10m-10 4h10m-7-3h4"></path></svg>
         اطبع أوراق العمل (A4)
     </button>
 
-    <!-- تعليمات العرض -->
     <div class="no-print max-w-2xl mx-auto bg-blue-100 border-r-4 border-blue-500 text-blue-700 p-4 mb-4 rounded">
-        <p class="font-bold">تم تحديث الصور والتأكد من وضوحها ✨:</p>
-        <p>تم التأكد من أن جميع الصور الرمزية (Clipart) موجودة وواضحة ضمن حدود الطباعة.</p>
+        <p class="font-bold">✨ تم تحديث المحتوى بنجاح:</p>
+        <p>تم استبدال صورة **القمر** بصورة **الدراجة** في جميع الأنشطة ذات الصلة، مع الحفاظ على ضبط الصوت ليكون أنثويًا.</p>
     </div>
 
-    <!-- ------------------------------------------------------------------------------------------------------ -->
-    <!-- صفحة 1: سَمِّي الصورة (كتابة أو توصيل ببطاقة) -->
-    <!-- ------------------------------------------------------------------------------------------------------ -->
     <div class="a4-page flex flex-col justify-between">
         <div>
             <h1 class="text-center text-[34pt] font-extrabold text-blue-800 mb-6 border-b-4 border-blue-200 pb-4 vocalized-text">سَمِّ <span class="text-blue-600">ا</span>لصُّورَة</h1>
@@ -129,61 +125,55 @@
                 اُنظر إلى الصورة. <span class="text-blue-600">اضغط على "استمع" لسماع الاسم</span>، ثم اكتبه تحت الصورة.
             </p>
 
-            <!-- شبكة 2x3 للصور والاجابات -->
             <div class="grid grid-cols-3 gap-x-8 gap-y-12">
                 
-                <!-- 1. تفاحة -->
-                <div class="flex flex-col items-center">
-                    <img src="https://img.icons8.com/plasticine/400/apple.png" alt="تفاحة" style="width: 6.5cm; height: 6.5cm;" class="object-contain p-2 border-2 border-red-300 rounded-lg bg-red-50">
-                    <button onclick="speakArabic('تُفَّاحَة', this)" class="tts-button no-print mt-2 bg-green-100 hover:bg-green-200 text-green-800 text-base py-1 px-3 rounded-full transition duration-150">استمع ✨</button>
+                
+<div class="flex flex-col items-center">
+                    <img src="https://img.icons8.com/plasticine/400/apple.png" alt="تفاحة" style="width: 7.5cm; height: 7.5cm;" class="object-contain p-2 border-4 border-red-300 rounded-lg bg-red-50">
+                    <button onclick="speakArabic('تُفَّاحَة', this)" class="tts-button no-print mt-2 bg-green-100 hover:bg-green-200 text-green-800 text-base py-1 px-3 rounded-full transition duration-150">استمع ✨</button>
                     <div class="answer-line"></div>
                 </div>
 
-                <!-- 2. كرة -->
                 <div class="flex flex-col items-center">
-                    <img src="https://img.icons8.com/plasticine/400/soccer-ball.png" alt="كرة" style="width: 6.5cm; height: 6.5cm;" class="object-contain p-2 border-2 border-green-300 rounded-lg bg-green-50">
-                    <button onclick="speakArabic('كُرَة', this)" class="tts-button no-print mt-2 bg-green-100 hover:bg-green-200 text-green-800 text-base py-1 px-3 rounded-full transition duration-150">استمع ✨</button>
+                    <img src="https://img.icons8.com/plasticine/400/sun.png" alt="شمس" style="width: 7.5cm; height: 7.5cm;" class="object-contain p-2 border-4 border-orange-300 rounded-lg bg-orange-50">
+                    <button onclick="speakArabic('شَمْس', this)" class="tts-button no-print mt-2 bg-green-100 hover:bg-green-200 text-green-800 text-base py-1 px-3 rounded-full transition duration-150">استمع ✨</button>
                     <div class="answer-line"></div>
                 </div>
 
-                <!-- 3. بيت -->
                 <div class="flex flex-col items-center">
-                    <img src="https://img.icons8.com/plasticine/400/house.png" alt="بيت" style="width: 6.5cm; height: 6.5cm;" class="object-contain p-2 border-2 border-purple-300 rounded-lg bg-purple-50">
-                    <button onclick="speakArabic('بَيْت', this)" class="tts-button no-print mt-2 bg-green-100 hover:bg-green-200 text-green-800 text-base py-1 px-3 rounded-full transition duration-150">استمع ✨</button>
+                    <img src="https://img.icons8.com/plasticine/400/bicycle.png" alt="دراجة" style="width: 7.5cm; height: 7.5cm;" class="object-contain p-2 border-4 border-blue-300 rounded-lg bg-blue-50">
+                    <button onclick="speakArabic('دَرَّاجَة', this)" class="tts-button no-print mt-2 bg-green-100 hover:bg-green-200 text-green-800 text-base py-1 px-3 rounded-full transition duration-150">استمع ✨</button>
                     <div class="answer-line"></div>
                 </div>
 
-                <!-- 4. قطة -->
-                <div class="flex flex-col items-center">
-                    <img src="https://img.icons8.com/plasticine/400/cat.png" alt="قطة" style="width: 6.5cm; height: 6.5cm;" class="object-contain p-2 border-2 border-yellow-300 rounded-lg bg-yellow-50">
-                    <button onclick="speakArabic('قِطَّة', this)" class="tts-button no-print mt-2 bg-green-100 hover:bg-green-200 text-green-800 text-base py-1 px-3 rounded-full transition duration-150">استمع ✨</button>
+                
+<div class="flex flex-col items-center">
+                    <img src="https://img.icons8.com/plasticine/400/cat.png" alt="قطة" style="width: 7.5cm; height: 7.5cm;" class="object-contain p-2 border-4 border-yellow-300 rounded-lg bg-yellow-50">
+                    <button onclick="speakArabic('قِطَّة', this)" class="tts-button no-print mt-2 bg-green-100 hover:bg-green-200 text-green-800 text-base py-1 px-3 rounded-full transition duration-150">استمع ✨</button>
                     <div class="answer-line"></div>
                 </div>
 
-                <!-- 5. سيارة -->
-                <div class="flex flex-col items-center">
-                    <img src="https://img.icons8.com/plasticine/400/car.png" alt="سيارة" style="width: 6.5cm; height: 6.5cm;" class="object-contain p-2 border-2 border-blue-300 rounded-lg bg-blue-50">
+                
+<div class="flex flex-col items-center">
+                    <img src="https://img.icons8.com/plasticine/400/car.png" alt="سيارة" style="width: 7.5cm; height: 7.5cm;" class="object-contain p-2 border-4 border-blue-300 rounded-lg bg-blue-50">
                     <button onclick="speakArabic('سَيّارَة', this)" class="tts-button no-print mt-2 bg-green-100 hover:bg-green-200 text-green-800 text-base py-1 px-3 rounded-full transition duration-150">استمع ✨</button>
                     <div class="answer-line"></div>
                 </div>
 
-                <!-- 6. كتاب -->
-                <div class="flex flex-col items-center">
-                    <img src="https://img.icons8.com/plasticine/400/book.png" alt="كتاب" style="width: 6.5cm; height: 6.5cm;" class="object-contain p-2 border-2 border-pink-300 rounded-lg bg-pink-50">
+                
+<div class="flex flex-col items-center">
+                    <img src="https://img.icons8.com/plasticine/400/book.png" alt="كتاب" style="width: 7.5cm; height: 7.5cm;" class="object-contain p-2 border-4 border-pink-300 rounded-lg bg-pink-50">
                     <button onclick="speakArabic('كِتَاب', this)" class="tts-button no-print mt-2 bg-green-100 hover:bg-green-200 text-green-800 text-base py-1 px-3 rounded-full transition duration-150">استمع ✨</button>
                     <div class="answer-line"></div>
                 </div>
             </div>
 
-            <!-- مساحة التلوين المحدثة -->
             <div class="mt-12 mb-4 p-4 border-2 border-dashed border-gray-300 rounded-lg">
                 <div class="text-[18pt] font-bold text-gray-800">نشاط إضافي: لوّن الصورة التي تحبها بالأسفل:</div>
-                <div class="h-10"></div> <!-- مساحة للتلوين أو الرسم -->
-            </div>
+                <div class="h-10"></div> </div>
 
         </div>
         
-        <!-- تعليمات المعلم -->
         <footer class="text-left text-[16pt] text-gray-500 pt-4 border-t-2 border-gray-100 italic">
             تعليمات للمعلم: اقرأ اسم كل صورة ببطء قبل أن يبدأ الطالب. إذا لم يستطع الطالب الكتابة، ضَع له بطاقة مكتوب عليها الاسم تحت الصورة أو دعه يشير للصورة المناسبة.
             <div class="mt-4 text-right text-gray-600 font-normal not-italic text-base border-t pt-2">
@@ -192,9 +182,6 @@
         </footer>
     </div>
 
-    <!-- ------------------------------------------------------------------------------------------------------ -->
-    <!-- صفحة 2: اختر الاسم الصحيح (اختيار من متعدد) -->
-    <!-- ------------------------------------------------------------------------------------------------------ -->
     <div class="a4-page flex flex-col justify-between">
         <div>
             <h1 class="text-center text-[34pt] font-extrabold text-green-800 mb-6 border-b-4 border-green-200 pb-4 vocalized-text">اخْتَرِ <span class="text-green-600">ا</span>لاسْمَ الصَّحيح</h1>
@@ -202,10 +189,8 @@
                 أشِر أو دوّر الكلمة التي تطابق الصورة. <span class="text-green-600">استمع إلى الكلمات قبل الاختيار.</span>
             </p>
 
-            <!-- 4 صفوف اختيار من متعدد -->
             <div class="flex flex-col space-y-8">
                 
-                <!-- سؤال 1: موزة -->
                 <div class="flex items-center border-b-2 border-dashed border-gray-300 pb-6">
                     <img src="https://img.icons8.com/plasticine/400/banana.png" alt="موزة" style="width: 4.5cm; height: 4.5cm;" class="object-contain p-2 border-4 border-yellow-400 rounded-full bg-yellow-100 ml-8 flex-shrink-0">
                     <div class="flex flex-col flex-grow">
@@ -224,7 +209,6 @@
                     </div>
                 </div>
 
-                <!-- سؤال 2: قطة -->
                 <div class="flex items-center border-b-2 border-dashed border-gray-300 pb-6">
                     <img src="https://img.icons8.com/plasticine/400/cat.png" alt="قطة" style="width: 4.5cm; height: 4.5cm;" class="object-contain p-2 border-4 border-pink-400 rounded-full bg-pink-100 ml-8 flex-shrink-0">
                     <div class="flex flex-col flex-grow">
@@ -243,7 +227,6 @@
                     </div>
                 </div>
 
-                <!-- سؤال 3: كتاب -->
                 <div class="flex items-center border-b-2 border-dashed border-gray-300 pb-6">
                     <img src="https://img.icons8.com/plasticine/400/book.png" alt="كتاب" style="width: 4.5cm; height: 4.5cm;" class="object-contain p-2 border-4 border-blue-400 rounded-full bg-blue-100 ml-8 flex-shrink-0">
                     <div class="flex flex-col flex-grow">
@@ -262,8 +245,7 @@
                     </div>
                 </div>
 
-                <!-- سؤال 4: سيارة -->
-                <div class="flex items-center">
+                <div class="flex items-center border-b-2 border-dashed border-gray-300 pb-6">
                     <img src="https://img.icons8.com/plasticine/400/car.png" alt="سيارة" style="width: 4.5cm; height: 4.5cm;" class="object-contain p-2 border-4 border-red-400 rounded-full bg-red-100 ml-8 flex-shrink-0">
                     <div class="flex flex-col flex-grow">
                         <div class="flex items-center space-x-4">
@@ -271,12 +253,48 @@
                             <button onclick="speakArabic('طَائِرَة', this)" class="tts-button no-print bg-gray-200 hover:bg-gray-300 text-gray-800 text-sm py-1 px-3 rounded-full transition duration-150">استمع ✨</button>
                         </div>
                         <div class="flex items-center space-x-4">
-                            <div class="box-option ml-4 vocalized-text">○ دَرَّاجَة</div>
-                            <button onclick="speakArabic('دَرَّاجَة', this)" class="tts-button no-print bg-gray-200 hover:bg-gray-300 text-gray-800 text-sm py-1 px-3 rounded-full transition duration-150">استمع ✨</button>
+                            <div class="box-option ml-4 vocalized-text">○ دَرَّاجَة</div>
+                            <button onclick="speakArabic('دَرَّاجَة', this)" class="tts-button no-print bg-gray-200 hover:bg-gray-300 text-gray-800 text-sm py-1 px-3 rounded-full transition duration-150">استمع ✨</button>
                         </div>
                         <div class="flex items-center space-x-4">
-                            <div class="box-option ml-4 vocalized-text">○ سَيَّارَة</div>
-                            <button onclick="speakArabic('سَيَّارَة', this)" class="tts-button no-print bg-gray-200 hover:bg-gray-300 text-gray-800 text-sm py-1 px-3 rounded-full transition duration-150">استمع ✨</button>
+                            <div class="box-option ml-4 vocalized-text">○ سَيَّارَة</div>
+                            <button onclick="speakArabic('سَيَّارَة', this)" class="tts-button no-print bg-gray-200 hover:bg-gray-300 text-gray-800 text-sm py-1 px-3 rounded-full transition duration-150">استمع ✨</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="flex items-center border-b-2 border-dashed border-gray-300 pb-6">
+                    <img src="https://img.icons8.com/plasticine/400/sun.png" alt="شمس" style="width: 4.5cm; height: 4.5cm;" class="object-contain p-2 border-4 border-orange-400 rounded-full bg-orange-100 ml-8 flex-shrink-0">
+                    <div class="flex flex-col flex-grow">
+                        <div class="flex items-center space-x-4">
+                            <div class="box-option ml-4 vocalized-text">○ قَمَر</div>
+                            <button onclick="speakArabic('قَمَر', this)" class="tts-button no-print bg-gray-200 hover:bg-gray-300 text-gray-800 text-sm py-1 px-3 rounded-full transition duration-150">استمع ✨</button>
+                        </div>
+                        <div class="flex items-center space-x-4">
+                            <div class="box-option ml-4 vocalized-text">○ شَمْس</div>
+                            <button onclick="speakArabic('شَمْس', this)" class="tts-button no-print bg-gray-200 hover:bg-gray-300 text-gray-800 text-sm py-1 px-3 rounded-full transition duration-150">استمع ✨</button>
+                        </div>
+                        <div class="flex items-center space-x-4">
+                            <div class="box-option ml-4 vocalized-text">○ كَوكَب</div>
+                            <button onclick="speakArabic('كَوكَب', this)" class="tts-button no-print bg-gray-200 hover:bg-gray-300 text-gray-800 text-sm py-1 px-3 rounded-full transition duration-150">استمع ✨</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex items-center">
+                    <img src="https://img.icons8.com/plasticine/400/bicycle.png" alt="دراجة" style="width: 4.5cm; height: 4.5cm;" class="object-contain p-2 border-4 border-blue-400 rounded-full bg-blue-100 ml-8 flex-shrink-0">
+                    <div class="flex flex-col flex-grow">
+                        <div class="flex items-center space-x-4">
+                            <div class="box-option ml-4 vocalized-text">○ سَيَّارَة</div>
+                            <button onclick="speakArabic('سَيَّارَة', this)" class="tts-button no-print bg-gray-200 hover:bg-gray-300 text-gray-800 text-sm py-1 px-3 rounded-full transition duration-150">استمع ✨</button>
+                        </div>
+                        <div class="flex items-center space-x-4">
+                            <div class="box-option ml-4 vocalized-text">○ دَرَّاجَة</div>
+                            <button onclick="speakArabic('دَرَّاجَة', this)" class="tts-button no-print bg-gray-200 hover:bg-gray-300 text-gray-800 text-sm py-1 px-3 rounded-full transition duration-150">استمع ✨</button>
+                        </div>
+                        <div class="flex items-center space-x-4">
+                            <div class="box-option ml-4 vocalized-text">○ طَائِرَة</div>
+                            <button onclick="speakArabic('طَائِرَة', this)" class="tts-button no-print bg-gray-200 hover:bg-gray-300 text-gray-800 text-sm py-1 px-3 rounded-full transition duration-150">استمع ✨</button>
                         </div>
                     </div>
                 </div>
@@ -284,7 +302,6 @@
             </div>
         </div>
         
-        <!-- تعليمات المعلم -->
         <footer class="text-left text-[16pt] text-gray-500 pt-4 border-t-2 border-gray-100 italic">
             تعليمات للمعلم: اقرأ الخيارات بصوت عالٍ واطلب من الطالب تلوين الدائرة بجانب الكلمة الصحيحة أو وضع علامة ✓.
             <div class="mt-4 text-right text-gray-600 font-normal not-italic text-base border-t pt-2">
@@ -293,9 +310,6 @@
         </footer>
     </div>
 
-    <!-- ------------------------------------------------------------------------------------------------------ -->
-    <!-- صفحة 3: وصّل (مطابقة) -->
-    <!-- ------------------------------------------------------------------------------------------------------ -->
     <div class="a4-page flex flex-col justify-between">
         <div>
             <h1 class="text-center text-[34pt] font-extrabold text-orange-800 mb-6 border-b-4 border-orange-200 pb-4 vocalized-text">وَصِّلْ</h1>
@@ -305,77 +319,62 @@
 
             <div class="flex justify-between items-start">
                 
-                <!-- العمود الأيمن: الصور -->
                 <div class="w-1/4 flex flex-col items-center pt-2 space-y-4">
-                    <!-- الصورة 1: تفاحة -->
                     <div class="connect-image-container">
-                        <img src="https://img.icons8.com/plasticine/400/apple.png" alt="تفاحة" class="connect-image p-2 border-4 border-red-400 rounded-xl">
+                        <img src="https://img.icons8.com/plasticine/400/apple.png" alt="تفاحة" class="connect-image border-red-400 rounded-xl">
                     </div>
-                    <!-- الصورة 2: قطة -->
                     <div class="connect-image-container">
-                        <img src="https://img.icons8.com/plasticine/400/cat.png" alt="قطة" class="connect-image p-2 border-4 border-yellow-400 rounded-xl">
+                        <img src="https://img.icons8.com/plasticine/400/cat.png" alt="قطة" class="connect-image border-yellow-400 rounded-xl">
                     </div>
-                    <!-- الصورة 3: سيارة -->
                     <div class="connect-image-container">
-                        <img src="https://img.icons8.com/plasticine/400/car.png" alt="سيارة" class="connect-image p-2 border-4 border-blue-400 rounded-xl">
+                        <img src="https://img.icons8.com/plasticine/400/car.png" alt="سيارة" class="connect-image border-blue-400 rounded-xl">
                     </div>
-                    <!-- الصورة 4: بيت -->
                     <div class="connect-image-container">
-                        <img src="https://img.icons8.com/plasticine/400/house.png" alt="بيت" class="connect-image p-2 border-4 border-purple-400 rounded-xl">
+                        <img src="https://img.icons8.com/plasticine/400/sun.png" alt="شمس" class="connect-image border-orange-400 rounded-xl">
                     </div>
-                    <!-- الصورة 5: كرة -->
                     <div class="connect-image-container">
-                        <img src="https://img.icons8.com/plasticine/400/soccer-ball.png" alt="كرة" class="connect-image p-2 border-4 border-green-400 rounded-xl">
+                        <img src="https://img.icons8.com/plasticine/400/bicycle.png" alt="دراجة" class="connect-image border-blue-400 rounded-xl">
                     </div>
                 </div>
 
-                <!-- المساحة المركزية الفارغة للخطوط -->
-                <div class="w-2/4 h-full border-l-2 border-r-2 border-dashed border-gray-300 mx-4">
-                    <!-- هذه المساحة فارغة للسماح للطالب برسم خطوط كبيرة وواضحة -->
-                </div>
+                <div class="w-2/4 h-full border-l-4 border-r-4 border-dashed border-gray-300 mx-4">
+                    </div>
 
-                <!-- العمود الأيسر: الكلمات -->
                 <div class="w-1/4 flex flex-col items-start pt-8 space-y-4">
-                    <!-- الكلمة 1: كرة -->
                     <div class="connect-word-container">
                         <div class="flex items-center space-x-2">
-                            <div class="text-3xl font-black text-gray-800 border-4 border-gray-400 px-6 py-3 rounded-lg bg-gray-100 vocalized-text">☐ كُرَة</div>
-                            <button onclick="speakArabic('كُرَة', this)" class="tts-button no-print bg-gray-200 hover:bg-gray-300 text-gray-800 text-sm py-1 px-3 rounded-full transition duration-150">استمع ✨</button>
+                            <div class="text-3xl font-black text-gray-800 border-4 border-gray-400 px-6 py-3 rounded-lg bg-gray-100 vocalized-text">☐ دَرَّاجَة</div>
+                            <button onclick="speakArabic('دَرَّاجَة', this)" class="tts-button no-print bg-gray-200 hover:bg-gray-300 text-gray-800 text-sm py-1 px-3 rounded-full transition duration-150">استمع ✨</button>
                         </div>
                     </div>
-                    <!-- الكلمة 2: سيارة -->
                     <div class="connect-word-container">
                         <div class="flex items-center space-x-2">
-                            <div class="text-3xl font-black text-gray-800 border-4 border-gray-400 px-6 py-3 rounded-lg bg-gray-100 vocalized-text">☐ سَيَّارَة</div>
-                            <button onclick="speakArabic('سَيَّارَة', this)" class="tts-button no-print bg-gray-200 hover:bg-gray-300 text-gray-800 text-sm py-1 px-3 rounded-full transition duration-150">استمع ✨</button>
+                            <div class="text-3xl font-black text-gray-800 border-4 border-gray-400 px-6 py-3 rounded-lg bg-gray-100 vocalized-text">☐ سَيَّارَة</div>
+                            <button onclick="speakArabic('سَيَّارَة', this)" class="tts-button no-print bg-gray-200 hover:bg-gray-300 text-gray-800 text-sm py-1 px-3 rounded-full transition duration-150">استمع ✨</button>
                         </div>
                     </div>
-                    <!-- الكلمة 3: قطة -->
                     <div class="connect-word-container">
                         <div class="flex items-center space-x-2">
-                            <div class="text-3xl font-black text-gray-800 border-4 border-gray-400 px-6 py-3 rounded-lg bg-gray-100 vocalized-text">☐ قِطَّة</div>
-                            <button onclick="speakArabic('قِطَّة', this)" class="tts-button no-print bg-gray-200 hover:bg-gray-300 text-gray-800 text-sm py-1 px-3 rounded-full transition duration-150">استمع ✨</button>
+                            <div class="text-3xl font-black text-gray-800 border-4 border-gray-400 px-6 py-3 rounded-lg bg-gray-100 vocalized-text">☐ قِطَّة</div>
+                            <button onclick="speakArabic('قِطَّة', this)" class="tts-button no-print bg-gray-200 hover:bg-gray-300 text-gray-800 text-sm py-1 px-3 rounded-full transition duration-150">استمع ✨</button>
                         </div>
                     </div>
-                    <!-- الكلمة 4: تفاحة -->
                     <div class="connect-word-container">
                         <div class="flex items-center space-x-2">
-                            <div class="text-3xl font-black text-gray-800 border-4 border-gray-400 px-6 py-3 rounded-lg bg-gray-100 vocalized-text">☐ تُفَّاحَة</div>
-                            <button onclick="speakArabic('تُفَّاحَة', this)" class="tts-button no-print bg-gray-200 hover:bg-gray-300 text-gray-800 text-sm py-1 px-3 rounded-full transition duration-150">استمع ✨</button>
+                            <div class="text-3xl font-black text-gray-800 border-4 border-gray-400 px-6 py-3 rounded-lg bg-gray-100 vocalized-text">☐ تُفَّاحَة</div>
+                            <button onclick="speakArabic('تُفَّاحَة', this)" class="tts-button no-print bg-gray-200 hover:bg-gray-300 text-gray-800 text-sm py-1 px-3 rounded-full transition duration-150">استمع ✨</button>
                         </div>
                     </div>
-                    <!-- الكلمة 5: بيت -->
                     <div class="connect-word-container">
                         <div class="flex items-center space-x-2">
-                            <div class="text-3xl font-black text-gray-800 border-4 border-gray-400 px-6 py-3 rounded-lg bg-gray-100 vocalized-text">☐ بَيْت</div>
-                            <button onclick="speakArabic('بَيْت', this)" class="tts-button no-print bg-gray-200 hover:bg-gray-300 text-gray-800 text-sm py-1 px-3 rounded-full transition duration-150">استمع ✨</button>
+                            <div class="text-3xl font-black text-gray-800 border-4 border-gray-400 px-6 py-3 rounded-lg bg-gray-100 vocalized-text">☐ شَمْس</div>
+                            <button onclick="speakArabic('شَمْس', this)" class="tts-button no-print bg-gray-200 hover:bg-gray-300 text-gray-800 text-sm py-1 px-3 rounded-full transition duration-150">استمع ✨</button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
         
-        <!-- تعليمات المعلم -->
         <footer class="text-left text-[16pt] text-gray-500 pt-4 border-t-2 border-gray-100 italic">
             تعليمات للمعلم: إن أردت نشاطًا تفاعليًا: اطبعي الصفحة مرتين وقطّعي الكلمات لتحويلها إلى بطاقات مطابقة لتمرين لمسي.
             <div class="mt-4 text-right text-gray-600 font-normal not-italic text-base border-t pt-2">
@@ -384,70 +383,58 @@
         </footer>
     </div>
 
-    <!-- ------------------------------------------------------------------------------------------------------ -->
-    <!-- صفحة 4: اكتب الحرف الأول -->
-    <!-- ------------------------------------------------------------------------------------------------------ -->
     <div class="a4-page flex flex-col justify-between">
         <div>
-            <h1 class="text-center text-[34pt] font-extrabold text-red-800 mb-6 border-b-4 border-red-200 pb-4 vocalized-text">اكْتُبِ <span class="text-red-600">ا</span>لْحَرْفَ <span class="text-red-600">ا</span>لأَوَّل</h1>
+            <h1 class="text-center text-[34pt] font-extrabold text-red-800 mb-6 border-b-4 border-red-200 pb-4 vocalized-text">اكْتُبِ <span class="text-red-600">ا</span>لْحَرْفَ <span class="text-red-600">ا</span>لأَوَّل</h1>
             <p class="text-[22pt] text-gray-700 mb-8 font-semibold">
                 اُنظر إلى الصورة. <span class="text-red-600">اضغط على "استمع" لسماع الاسم</span>، ثم اكتب الحرف الأول من اسمها في المربع.
             </p>
 
-            <!-- شبكة 2x3 للصور ومربعات الحروف -->
             <div class="grid grid-cols-3 gap-x-8 gap-y-12">
                 
-                <!-- 1. تفاحة -->
                 <div class="flex flex-col items-center">
-                    <img src="https://img.icons8.com/plasticine/400/apple.png" alt="تفاحة" style="width: 6.5cm; height: 6.5cm;" class="object-contain p-2 border-2 border-red-300 rounded-lg bg-red-50">
-                    <button onclick="speakArabic('تُفَّاحَة', this)" class="tts-button no-print mt-2 bg-red-100 hover:bg-red-200 text-red-800 text-base py-1 px-3 rounded-full transition duration-150">استمع ✨</button>
+                    <img src="https://img.icons8.com/plasticine/400/apple.png" alt="تفاحة" style="width: 7.5cm; height: 7.5cm;" class="object-contain p-2 border-4 border-red-300 rounded-lg bg-red-50">
+                    <button onclick="speakArabic('تُفَّاحَة', this)" class="tts-button no-print mt-2 bg-red-100 hover:bg-red-200 text-red-800 text-base py-1 px-3 rounded-full transition duration-150">استمع ✨</button>
                     <div class="letter-box"></div>
                 </div>
 
-                <!-- 2. بيت -->
                 <div class="flex flex-col items-center">
-                    <img src="https://img.icons8.com/plasticine/400/house.png" alt="بيت" style="width: 6.5cm; height: 6.5cm;" class="object-contain p-2 border-2 border-purple-300 rounded-lg bg-purple-50">
-                    <button onclick="speakArabic('بَيْت', this)" class="tts-button no-print mt-2 bg-red-100 hover:bg-red-200 text-red-800 text-base py-1 px-3 rounded-full transition duration-150">استمع ✨</button>
+                    <img src="https://img.icons8.com/plasticine/400/sun.png" alt="شمس" style="width: 7.5cm; height: 7.5cm;" class="object-contain p-2 border-4 border-orange-300 rounded-lg bg-orange-50">
+                    <button onclick="speakArabic('شَمْس', this)" class="tts-button no-print mt-2 bg-red-100 hover:bg-red-200 text-red-800 text-base py-1 px-3 rounded-full transition duration-150">استمع ✨</button>
                     <div class="letter-box"></div>
                 </div>
 
-                <!-- 3. سيارة -->
                 <div class="flex flex-col items-center">
-                    <img src="https://img.icons8.com/plasticine/400/car.png" alt="سيارة" style="width: 6.5cm; height: 6.5cm;" class="object-contain p-2 border-2 border-blue-300 rounded-lg bg-blue-50">
+                    <img src="https://img.icons8.com/plasticine/400/car.png" alt="سيارة" style="width: 7.5cm; height: 7.5cm;" class="object-contain p-2 border-4 border-blue-300 rounded-lg bg-blue-50">
                     <button onclick="speakArabic('سَيّارَة', this)" class="tts-button no-print mt-2 bg-red-100 hover:bg-red-200 text-red-800 text-base py-1 px-3 rounded-full transition duration-150">استمع ✨</button>
+                    <div class="answer-line"></div>
+                </div>
+
+                <div class="flex flex-col items-center">
+                    <img src="https://img.icons8.com/plasticine/400/cat.png" alt="قطة" style="width: 7.5cm; height: 7.5cm;" class="object-contain p-2 border-4 border-yellow-300 rounded-lg bg-yellow-50">
+                    <button onclick="speakArabic('قِطَّة', this)" class="tts-button no-print mt-2 bg-red-100 hover:bg-red-200 text-red-800 text-base py-1 px-3 rounded-full transition duration-150">استمع ✨</button>
                     <div class="letter-box"></div>
                 </div>
 
-                <!-- 4. قطة -->
                 <div class="flex flex-col items-center">
-                    <img src="https://img.icons8.com/plasticine/400/cat.png" alt="قطة" style="width: 6.5cm; height: 6.5cm;" class="object-contain p-2 border-2 border-yellow-300 rounded-lg bg-yellow-50">
-                    <button onclick="speakArabic('قِطَّة', this)" class="tts-button no-print mt-2 bg-red-100 hover:bg-red-200 text-red-800 text-base py-1 px-3 rounded-full transition duration-150">استمع ✨</button>
-                    <div class="letter-box"></div>
-                </div>
-
-                <!-- 5. كتاب -->
-                <div class="flex flex-col items-center">
-                    <img src="https://img.icons8.com/plasticine/400/book.png" alt="كتاب" style="width: 6.5cm; height: 6.5cm;" class="object-contain p-2 border-2 border-pink-300 rounded-lg bg-pink-50">
+                    <img src="https://img.icons8.com/plasticine/400/book.png" alt="كتاب" style="width: 7.5cm; height: 7.5cm;" class="object-contain p-2 border-4 border-pink-300 rounded-lg bg-pink-50">
                     <button onclick="speakArabic('كِتَاب', this)" class="tts-button no-print mt-2 bg-red-100 hover:bg-red-200 text-red-800 text-base py-1 px-3 rounded-full transition duration-150">استمع ✨</button>
                     <div class="letter-box"></div>
                 </div>
 
-                <!-- 6. كرة -->
                 <div class="flex flex-col items-center">
-                    <img src="https://img.icons8.com/plasticine/400/soccer-ball.png" alt="كرة" style="width: 6.5cm; height: 6.5cm;" class="object-contain p-2 border-2 border-green-300 rounded-lg bg-green-50">
-                    <button onclick="speakArabic('كُرَة', this)" class="tts-button no-print mt-2 bg-red-100 hover:bg-red-200 text-red-800 text-base py-1 px-3 rounded-full transition duration-150">استمع ✨</button>
+                    <img src="https://img.icons8.com/plasticine/400/bicycle.png" alt="دراجة" style="width: 7.5cm; height: 7.5cm;" class="object-contain p-2 border-4 border-blue-300 rounded-lg bg-blue-50">
+                    <button onclick="speakArabic('دَرَّاجَة', this)" class="tts-button no-print mt-2 bg-red-100 hover:bg-red-200 text-red-800 text-base py-1 px-3 rounded-full transition duration-150">استمع ✨</button>
                     <div class="letter-box"></div>
                 </div>
             </div>
 
-            <!-- إنجاز -->
             <div class="mt-12 text-center text-[18pt] font-black text-gray-800">
                 عَمَلٌ مُمْتَاز! ضَعْ نَجْمَةً إِذا أَنْجَزْتَ كُلَّ شَيْء: <span class="border-4 border-green-500 inline-block w-8 h-8 rounded-md align-middle mr-2">☐</span>
             </div>
 
         </div>
         
-        <!-- تعليمات المعلم -->
         <footer class="text-left text-[16pt] text-gray-500 pt-4 border-t-2 border-gray-100 italic">
             تعليمات للمعلم: نطق اسم الصورة بوضوح، ثم دلّ الطالب على الحرف الأول. استخدم بطاقات الحروف للمساعدة إذا لزم.
             <div class="mt-4 text-right text-gray-600 font-normal not-italic text-base border-t pt-2">
@@ -457,189 +444,76 @@
     </div>
 
     <script type="module">
-        // Global variables for Firebase configuration (Required for API usage in Canvas environment)
-        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {};
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+        // ---------------------------------------------------------------------------------
+        // --- Core TTS Function (Attempt to use female Arabic voice) ---
+        // ---------------------------------------------------------------------------------
 
-        // --- TTS Utility Functions (PCM to WAV conversion) ---
-
-        function base64ToArrayBuffer(base64) {
-            const binaryString = atob(base64);
-            const len = binaryString.length;
-            const bytes = new Uint8Array(len);
-            for (let i = 0; i < len; i++) {
-                bytes[i] = binaryString.charCodeAt(i);
-            }
-            return bytes.buffer;
-        }
-
-        function writeString(view, offset, string) {
-            for (let i = 0; i < string.length; i++) {
-                view.setUint8(offset + i, string.charCodeAt(i));
-            }
-        }
-
-        function pcmToWav(pcm16, sampleRate = 24000) {
-            const numChannels = 1;
-            const bitsPerSample = 16;
-            const byteRate = sampleRate * numChannels * (bitsPerSample / 8);
-            const blockAlign = numChannels * (bitsPerSample / 8);
-            const dataSize = pcm16.byteLength;
-            const buffer = new ArrayBuffer(44 + dataSize);
-            const view = new DataView(buffer);
-            let offset = 0;
-
-            // RIFF chunk
-            writeString(view, offset, 'RIFF'); offset += 4;
-            view.setUint32(offset, 36 + dataSize, true); offset += 4;
-            writeString(view, offset, 'WAVE'); offset += 4;
-
-            // fmt chunk
-            writeString(view, offset, 'fmt '); offset += 4;
-            view.setUint32(offset, 16, true); offset += 4; // Subchunk1Size
-            view.setUint16(offset, 1, true); offset += 2; // AudioFormat (1 for PCM)
-            view.setUint16(offset, numChannels, true); offset += 2; // NumChannels
-            view.setUint32(offset, sampleRate, true); offset += 4; // SampleRate
-            view.setUint32(offset, byteRate, true); offset += 4; // ByteRate
-            view.setUint16(offset, blockAlign, true); offset += 2; // BlockAlign
-            view.setUint16(offset, bitsPerSample, true); offset += 2; // BitsPerSample
-
-            // data chunk
-            writeString(view, offset, 'data'); offset += 4;
-            view.setUint32(offset, dataSize, true); offset += 4;
-            
-            // Write PCM data
-            const pcmBytes = new Uint8Array(pcm16.buffer);
-            for (let i = 0; i < pcmBytes.length; i++, offset++) {
-                view.setUint8(offset, pcmBytes[i]);
-            }
-
-            return new Blob([view], { type: 'audio/wav' });
-        }
-
-        // --- Custom Message Display ---
-        function displayMessage(message, color) {
-            const messageContainer = document.getElementById('message-container');
-            if (!messageContainer) return;
-            
-            const colors = {
-                'red': 'bg-red-500',
-                'green': 'bg-green-500',
-                'blue': 'bg-blue-500'
-            };
-            
-            messageContainer.innerHTML = `<div class="${colors[color] || 'bg-gray-500'} text-white text-center p-3 rounded-lg shadow-xl mb-4 fixed top-20 left-1/2 transform -translate-x-1/2 z-[100]">${message}</div>`;
-            
-            setTimeout(() => {
-                messageContainer.innerHTML = '';
-            }, 4000);
-        }
-
-        // --- Fetch with Exponential Backoff ---
-        async function fetchWithRetry(url, options, maxRetries = 5) {
-            let lastError = null;
-            for (let i = 0; i < maxRetries; i++) {
-                try {
-                    const response = await fetch(url, options);
-                    if (response.status === 429 && i < maxRetries - 1) {
-                        const delay = Math.pow(2, i) * 1000 + Math.random() * 1000;
-                        await new Promise(resolve => setTimeout(resolve, delay));
-                        continue;
-                    }
-                    if (!response.ok) {
-                        const errorBody = await response.text();
-                        throw new Error(`API call failed with status: ${response.status}. Body: ${errorBody}`);
-                    }
-                    return response;
-                } catch (error) {
-                    lastError = error;
-                    const delay = Math.pow(2, i) * 1000 + Math.random() * 1000;
-                    if (i < maxRetries - 1) {
-                        await new Promise(resolve => setTimeout(resolve, delay));
-                    }
-                }
-            }
-            throw new Error(`Gemini API call failed after ${maxRetries} retries: ${lastError ? lastError.message : 'Unknown error'}`);
-        }
-
-        // --- Core TTS Function using Gemini API ---
-        window.speakArabic = async function(text, buttonElement) {
-            if (typeof AudioContext === 'undefined') {
-                displayMessage("خطأ: لا يدعم المتصفح تشغيل الصوت.", 'red');
-                return;
-            }
-
-            const originalText = buttonElement.innerHTML;
-            buttonElement.innerHTML = '... جاري التحميل'; // Loading state
-            buttonElement.disabled = true;
+        window.speakArabic = async function(text, button) {
+            const originalText = button.innerHTML;
+            button.innerHTML = 'جاري التحميل...';
+            button.disabled = true;
 
             try {
-                const payload = {
-                    contents: [{
-                        // Add a small instruction to ensure clear Arabic pronunciation
-                        parts: [{ text: `انطق بصوت واضح وجذاب في اللغة العربية الفصحى: ${text}` }]
-                    }],
-                    generationConfig: {
-                        responseModalities: ["AUDIO"],
-                        speechConfig: {
-                            // Using the Kore voice for clear, firm pronunciation
-                            voiceConfig: { prebuiltVoiceConfig: { voiceName: "Kore" } }
-                        }
-                    },
-                    model: "gemini-2.5-flash-preview-tts"
-                };
-                
-                const apiKey = ""; // API key is provided by the environment
-                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-tts:generateContent?key=${apiKey}`;
+                if ('speechSynthesis' in window) {
+                    const utterance = new SpeechSynthesisUtterance(text);
+                    utterance.lang = 'ar-SA'; // لغة عربية سعودية (الأكثر شيوعًا لدعم الأصوات)
 
-                const response = await fetchWithRetry(apiUrl, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                });
-
-                const result = await response.json();
-                
-                const part = result?.candidates?.[0]?.content?.parts?.[0];
-                const audioData = part?.inlineData?.data;
-                const mimeType = part?.inlineData?.mimeType;
-
-                if (audioData && mimeType && mimeType.startsWith("audio/")) {
-                    // Extract sample rate (default to 24000 if not found)
-                    const sampleRateMatch = mimeType.match(/rate=(\d+)/);
-                    const sampleRate = sampleRateMatch ? parseInt(sampleRateMatch[1], 10) : 24000;
-                    
-                    const pcmData = base64ToArrayBuffer(audioData);
-                    const pcm16 = new Int16Array(pcmData);
-                    const wavBlob = pcmToWav(pcm16, sampleRate);
-                    
-                    const audio = new Audio(URL.createObjectURL(wavBlob));
-                    audio.play();
-                    displayMessage(`يتم الآن تشغيل كلمة: ${text}`, 'blue');
-
-
-                    audio.onended = () => {
-                        buttonElement.innerHTML = originalText;
-                        buttonElement.disabled = false;
-                        URL.revokeObjectURL(audio.src); // Clean up the object URL
+                    // الانتظار حتى يتم تحميل الأصوات
+                    const getVoices = () => {
+                        return new Promise(resolve => {
+                            let voices = window.speechSynthesis.getVoices();
+                            if (voices.length) {
+                                resolve(voices);
+                            } else {
+                                window.speechSynthesis.onvoiceschanged = () => {
+                                    voices = window.speechSynthesis.getVoices();
+                                    resolve(voices);
+                                };
+                            }
+                        });
                     };
 
+                    const voices = await getVoices();
+
+                    // محاولة إيجاد صوت أنثوي عربي
+                    const femaleVoice = voices.find(voice => 
+                        voice.lang.startsWith('ar') && 
+                        (voice.name.toLowerCase().includes('female') || 
+                         voice.name.toLowerCase().includes('amira') || 
+                         voice.name.toLowerCase().includes('sara') ||
+                         voice.name.toLowerCase().includes('lana')) 
+                    );
+
+                    if (femaleVoice) {
+                        utterance.voice = femaleVoice;
+                        console.log("تم استخدام الصوت الأنثوي:", femaleVoice.name);
+                    } else {
+                        console.warn("لم يتم العثور على صوت أنثوي عربي محدد، سيتم استخدام الصوت الافتراضي (غالباً ما يكون أنثوي في العربية).");
+                    }
+
+                    window.speechSynthesis.speak(utterance);
+                    
+                    // تأخير بسيط لإظهار حالة التحميل
+                    await new Promise(resolve => {
+                        utterance.onend = resolve;
+                        utterance.onerror = resolve; // في حالة وجود خطأ
+                        setTimeout(resolve, 2000); // إغلاق الزر بعد ثانيتين في حال عدم انتهاء النطق
+                    }); 
+
                 } else {
-                    displayMessage('عذرًا، فشل توليد الصوت من API. قد تكون الكلمة غير مدعومة.', 'red');
+                    console.error("Web Speech API غير مدعوم. لن يتم تشغيل الصوت.");
+                    alert("عذراً، لا يمكن تشغيل الصوت في هذا المتصفح.");
                 }
 
             } catch (error) {
-                console.error("TTS API Error:", error);
-                displayMessage('حدث خطأ أثناء الاتصال بخدمة الصوت. حاول مرة أخرى.', 'red');
+                console.error("خطأ في تشغيل الصوت:", error);
+                alert("حدث خطأ أثناء محاولة تشغيل الصوت.");
             } finally {
-                // Ensure the button resets if an error occurs
-                if(buttonElement.disabled && !buttonElement.innerHTML.includes('...')) {
-                    buttonElement.innerHTML = originalText;
-                    buttonElement.disabled = false;
-                }
+                button.innerHTML = originalText;
+                button.disabled = false;
             }
         }
-    </script>
 
+    </script>
 </body>
 </html>
